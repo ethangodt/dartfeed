@@ -14,9 +14,4 @@ var UserProfileSchema = new mongoose.Schema({
  followers: [ {userID: Number} ]
 });
 
-UserProfileSchema.pre('save', function(next){
-  console.log("pre save");
-  next(); 
-})
-
 module.exports = mongoose.model('UserProfiles', UserProfileSchema);

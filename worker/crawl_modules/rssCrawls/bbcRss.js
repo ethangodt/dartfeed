@@ -1,5 +1,4 @@
 var rssModule = require('./rssModule.js');
-
 var request = require('request');
 var cheerio = require('cheerio');
 
@@ -7,7 +6,6 @@ var cheerio = require('cheerio');
 
 
 function _imageRetrieveAsync(articleURL,options){
-
   return new Promise(function(resolve,reject){
     request(articleURL,function(error,response,body){
       if(error){
@@ -33,7 +31,7 @@ function _parseBody(body){
 }
 
 function _feedParseAsync(){
-  var bbcUrl="http://feeds.bbci.co.uk/news/technology/rss.xml";
+  var bbcUrl = "http://feeds.bbci.co.uk/news/technology/rss.xml";
   var feedParser = new rssModule(bbcUrl);
   return new Promise(function(resolve,reject){
     feedParser.parse(function(error,responses){
