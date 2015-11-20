@@ -12,14 +12,13 @@ module.exports = {
   },
 
   protectedPage: function (req, res, next){
-
-    res.send("protected page"); 
+    res.send("protected page");
   },
    
   signin: function (req, res, next){
     //console.log(req);
     console.log("user ", req.user);
-    res.end("sign in with FB page")
+    res.send("sign in with FB page")
   }, 
 
   callback: function (req, res, next){

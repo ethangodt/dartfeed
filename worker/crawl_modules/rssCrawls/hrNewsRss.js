@@ -103,17 +103,3 @@ var qq = new hrNewsParser();
 qq.init(function(res){
   console.log(res)
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-

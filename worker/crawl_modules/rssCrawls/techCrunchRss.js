@@ -60,7 +60,7 @@ function test(collection,position,cb){
     mongoObj.imgURL = _parseContentForImage(response.content);
     cb(mongoObj);
     test(collection,position+1,cb)
-  },3000)
+  }, 3000)
 
 }
 

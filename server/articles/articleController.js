@@ -37,7 +37,7 @@ module.exports = {
             if ( cat ) {
               resBody.push(cat.articles);
             } else {
-              resBody.push()
+              resBody.push();
             }
           }, function (err) {
             console.error(err);

@@ -11,7 +11,7 @@ module.exports = function (router) {
   router.get('/api/users', userController.getAllUsers);
   router.get('/api/user', userController.getCurrentUser);
   router.get('/api/user/:user_id', userController.getUser);
-  router.get('/api/auth/signin', authController.signin); 
+  router.get('/api/auth/signin', authController.signin);
   router.get('/api/auth/protected', authController.checkAuth, authController.protectedPage); 
 
   router.get('/api/auth/signout', authController.signout);
@@ -26,6 +26,3 @@ module.exports = function (router) {
   router.get('/api/categories', categoryController.getCategories);
   router.put('/api/categories', categoryController.updateUserCategories);
 }
-
-
-

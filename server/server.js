@@ -17,7 +17,6 @@ var app = express();
 var expressRouter = express.Router(); 
 app.use(express.static(__dirname + '/../client'));
 
-//cookie parser
 app.use(cookieParser());
 
 // parse application/x-www-form-urlencoded and application/json
@@ -35,10 +34,7 @@ passport.use(new FacebookStrategy({
     //profileFields: ['email', 'profileUrl']
   },
   function(accessToken, refreshToken, profile, done) {
-      console.log(accessToken);
-      console.log(profile);
-
-      ///store in the db 
+      ///store in the db
       User.findOne({fbId:profile.id}, function(err, user){
         if(!user){
           return User.create({
@@ -53,49 +49,39 @@ passport.use(new FacebookStrategy({
         }
       })
       .then(function (user){
-        console.log("then user ", user);
-        done(null, user); 
+        done(null, user);
       });
   }
 ));
 
 app.use(logger);
 app.use(bodyParser.json());
-//app.use('/', expressRouter); 
 
 //get called after login - updates session with user.id 
 passport.serializeUser(function(user, done) {
-  console.log("login uid", user.id);
   done(null, user.id);
 });
 
 //called on subsequent requests to server
 passport.deserializeUser(function(id, done) {
-  console.log("deserializeUser", id);
 
   User.findById(id, function (err, user){
     if(user){
-      console.log("found user");
       //if id exists in DB - call done with id - id will be on req.user going forward
-      done(null, user); 
+      done(null, user);
     } else {
-      console.log("didn't find user");
-      //if not, call done with false 
+      //if not, call done with false
       done(null, false); 
     }
   });
 });
 
 app.use(function (req, res, next){
-  console.log("user setting conditional");
-  console.log(req.originalUrl);
-  console.log(req.user);
   if(req.originalUrl === '/api/auth/callback'){
     next();
   }
   if(!req.user){
-    console.log("true!");
-    defaultUser(req, res, next);
+    defaultUser(req, res, next); // todo redirect to signup, or something reasonable
   } else {
     next();
   }
