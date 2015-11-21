@@ -2,25 +2,25 @@
   <a href="/#/feed">Back to Feed</a>
   <h1>User Profile</h1>
   <div class="profile">
-  <br>    
-  <h2>{{user.data.username}}</h2>
+    <br>
+    <h2>{{user.data.username}}</h2>
   </div>
   <br>
   <h4>Selected Categories</h4>
-  <span class="categories" ng-repeat="category in user.data.categories"> 
-    {{category.name}} &nbsp; &nbsp;
+  <span class="categories" ng-repeat="category in user.data.categories">
+    {{category}} &nbsp; &nbsp;
   </span>
   <br>
   <br>
   <div class="profileCategories">
-  <label for="repeatSelect"> <h4>Add new categories</h4> </label><br>
-  <select name="repeatSelect" id="repeatSelect" ng-model="selectedCategory">
-    <option value="">---Please select---</option> <!-- not selected / blank option -->
-    <option ng-repeat="option in categories.data" value="{{option.name}}">
-    {{option.name}}
-  </select>
-  <button ng-click="addCategoriesToUser()">Add category</button><br>
-  
+    <label for="repeatSelect"> <h4>Add new categories</h4> </label><br>
+    <select name="repeatSelect" id="repeatSelect" ng-model="selectedCategory">
+      <option value="">---Please select---</option> <!-- not selected / blank option -->
+      <option ng-repeat="option in categories.data" value="{{option.name}}">
+        {{option.name}}
+    </select>
+    <button ng-click="addCategoriesToUser()">Add category</button><br>
+
 
   </div>
 
