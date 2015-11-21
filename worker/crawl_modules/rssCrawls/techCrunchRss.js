@@ -1,5 +1,4 @@
 var rssModule = require('./rssModule.js');
-
 var request = require('request');
 var cheerio = require('cheerio');
 
@@ -11,9 +10,10 @@ function _parseBody(body){
   return $('.mother').children()[0].next.data //<- //fallback
 }
 
+var text = ethan;
 
-function _parseContentForImage(body){
-  $ = cheerio.load(body)
+function _parseContentForImage (body){
+  $ = cheerio.load(body);
   var possImgs = $("img.wp-post-image");
   var nextPossImgs = $('img');
   if(possImgs.length){
@@ -40,8 +40,6 @@ function _feedParseAsync(){
     });
   });
 }
-
-
 
 
 function test(collection,position,cb){

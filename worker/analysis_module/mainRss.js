@@ -155,8 +155,3 @@ var collectCategories = function () {
 };
 
 collectCategories();
-
-
-
-
-
