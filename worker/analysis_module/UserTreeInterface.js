@@ -7,7 +7,7 @@ var trees = {
   'Art & Culture': {id: 'cl_aPS8U36R'},
   business: {id: 'cl_3woeSYDA'},
   living: {id: 'cl_vgWv3zVm'},
-  'Science & Technology': {id: 'cl_7smzuZDg', rootId: 561573}
+  'Science & Technology': {id: 'cl_go9n9dMK'}
 };
 
 var numTrees = _.reduce(trees, function (acc, id) {
@@ -79,11 +79,11 @@ module.exports = {
       headers: {
         'Authorization': 'token ' + token
       },
-    }, function (err) {
+    }, function (err, res) {
       if(err) {
         console.log('error in userTree.startTraining:', err)
       } else {
-        callback();
+        callback(res);
       }
     });
   },
@@ -118,9 +118,9 @@ module.exports = {
         "parent_id": trees[treeName].rootId
       }
     }, function (err, res) {
-      console.log(res.statusCode)
       if(err || res.statusCode >= 400) {
-        console.log('error in userTree.addUserToTree:', err)
+        console.log('error in userTree.addUserToTree:', err);
+        console.log('statusCode', res.statusCode);
       } else {
         callback();
       }
@@ -138,20 +138,33 @@ var sample = {
   tree: 'Science & Technology'
 }
 
-module.exports.getUserCategoryIdsForTree(sample.tree, function (res) {
-  
-  module.exports.addSamples(sample.tree, [{text: sample.text, category_id: res['Root']}, {text: sample.text, category_id: res[sample.user]}], function () {
+var testMode = 1;
 
-    console.log('\nadded Samples!')
+if(testMode === 0) {
+  module.exports.getUserCategoryIdsForTree(sample.tree, function (resWithRoot) {
+    module.exports.addUserToTree(sample.tree, sample.user, function () {
+      module.exports.addUserToTree(sample.tree, sample.user+2, function () {
 
-    module.exports.startTraining(sample.tree, function () {
+        module.exports.getUserCategoryIdsForTree(sample.tree, function (res) {
+          console.log(res);
+          
+          module.exports.addSamples(sample.tree, [{text: sample.text, category_id: res[sample.user]}, {text: sample.text, category_id: res[sample.user+'2']}], function () {
 
-      console.log('\n Training Started!')
+            console.log('\nadded Samples!')
 
+            module.exports.startTraining(sample.tree, function (tRes) {
+              console.log('\n Training Started!');
+            });
+
+          });
+
+        });
+
+      })
     })
-
   })
-})
-
+} else if (testMode === 1) {
+  module.exports.startTraining(sample.tree, function (tRes) {});
+}
 
 
