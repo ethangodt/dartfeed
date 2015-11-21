@@ -1,7 +1,7 @@
 var Article = require('./articleModel');
 var Category = require('../categories/categoryModel');
 var Promise = require('bluebird');
-Promise.promisifyAll(require('mongoose'));
+Promise.promisifyAll(require('mongoose')); // todo this needs to be fixed
 
 module.exports = {
 
