@@ -5,7 +5,7 @@ var token = require('../../server/config.js').monkeyLearnToken;
 
 //If any of the trees change then the id and root id will have to be updated
 //id can be found when veiwing the GUI at app.monkeylearn.com
-//you can get the root id by logging the result of getUserCategoryIdsForTree of the 
+//you can get the root id by logging the result of getUserCategoryIdsForTree of the
 //tree that's been changed.  Or getUserCategoryIdsForAllTrees if you need to update all of them.
 var trees = {
   'Art & Culture': {
@@ -82,13 +82,13 @@ module.exports = {
   classify: function (treeName, articleArr, callback) {
     //articleArr is an array of strings.  tree name is the key from the trees object.  if it is set to 'Public'
     //the function will use the news categories calssifier.
-    //returns an array of arrays of objects. the nested arrays correspond to the strings in articleArr 
+    //returns an array of arrays of objects. the nested arrays correspond to the strings in articleArr
     //sequentially.  each object has a category label property and a probability property.
     //ex:
     //articleArr = ['string1', 'string2'];
-    //return = [ 
+    //return = [
     //  [
-    //    {label: 'first category of string1', probability: <decimal number>}, 
+    //    {label: 'first category of string1', probability: <decimal number>},
     //    {label: 'second category of string1', probability: <decimal number>} ...
     //  ],
     //  [
@@ -193,7 +193,7 @@ module.exports = {
         'Authorization': 'token ' + token
       },
       json: {
-        "name": username, 
+        "name": username,
         "parent_id": trees[treeName].rootId
       }
     }, function (err, res) {
