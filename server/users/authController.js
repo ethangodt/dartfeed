@@ -1,5 +1,7 @@
 var User = require('./userModel.js'); 
-var body = require('body-parser'); 
+var body = require('body-parser');
+var cookieParser = require('cookie-parser');
+
 
 module.exports = {
 
