@@ -1,6 +1,15 @@
 node_modules/
 bower_components/
 server/config.js
+ dartfeed.0
+dartfeed.ns
+journal/
+local.0
+dartfeed.0
+local.ns
+mongod.lock
+storage.bson
+
 *.log
 keys/
 build/

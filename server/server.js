@@ -77,10 +77,6 @@ passport.deserializeUser(function(id, done) {
 });
 
 app.use(function (req, res, next){
-  if(req.originalUrl === '/api/auth/callback'){
-    console.log('req cookies', req.cookies);
-    next();
-  }
   if(!req.user){
     defaultUser(req, res, next); // todo redirect to signup, or something reasonable
   } else {

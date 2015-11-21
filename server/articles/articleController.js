@@ -51,17 +51,13 @@ module.exports = {
 
   insertArticles : function (req, res, next) {
     var articleData = req.body;
-    var artPromises = [];
-
-    artPromises.push(req.body.forEach(function (articleData) {
+    articleData.forEach(function (articleData) {
       articleData.date = new Date(articleData.date);
       articleData.visitsCount = 0;
       articleData.metadata = 0; //for potential features later
       var catPromises = [];
       var catData = [];
-
       articleData.categories.forEach(function (category) {
-
         catPromises.push(Category.findOne({ name: category})
           .then(function (cat) {
             var temp = articleData.categories;
@@ -95,11 +91,8 @@ module.exports = {
         });
       });
 
-    }));
-
-    Promise.all(artPromises).then(function() {
-      res.send();
     });
+      res.send();
 
   }
 }
