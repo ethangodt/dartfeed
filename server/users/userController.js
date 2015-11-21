@@ -6,7 +6,6 @@ var trainingData = {
 module.exports = {
 
   getCurrentUser: function (req, res, next){
-    console.log("logged in user: ", req.user);
     var user = req.user;
     res.send(user); 
   },
@@ -31,7 +30,7 @@ module.exports = {
   },
   newLike: function (req, res, next) {
     var articleid = req.body.articleId;
-    user = req.cookies;
-    trainingData.addLike(articleid, username);
+    user = req.user._id;
+    trainingData.addLike(articleid, user);
   }
 }
