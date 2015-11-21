@@ -1,4 +1,7 @@
 var User = require('./userModel.js');
+var trainingData = {
+  addLike:function(articleId, username){}
+};
 
 module.exports = {
 
@@ -25,5 +28,10 @@ module.exports = {
       }  
       res.json(users);
     });
+  },
+  newLike: function (req, res, next) {
+    var articleid = req.body.articleId;
+    user = req.cookies;
+    trainingData.addLike(articleid, username);
   }
 }

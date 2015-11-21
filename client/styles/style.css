@@ -46,8 +46,10 @@
   box-shadow:         3px 3px 5px 3px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 
-section.landingHeader{
-  background-image:url("https://cdn0.iconfinder.com/data/icons/targetdart/506/target-dart.png");
+
+.landingHeader{
+  background-image: url('https://i.ytimg.com/vi/CZI9MZKfvgw/maxresdefault.jpg');
+  background-position: 25%;
   background-repeat: no-repeat;
 }
 
@@ -64,9 +66,7 @@ div.article-card{
   height:300px;
 
 }
-body {
-  min-height: 75rem; /* Can be removed; just added for demo purposes */
-}
+
 
 .navbar {
   margin-bottom: 0;
@@ -103,7 +103,8 @@ body {
   padding-top: 6rem;
   padding-bottom: 6rem;
   margin-bottom: 0;
-  background-color: #fff;
+  background: none;
+  filter: alpha(opacity=20);
 }
 
 .jumbotron p:last-child {

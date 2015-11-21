@@ -12,12 +12,13 @@ module.exports = {
     //use req.user to save back the updates
     console.log("req.user in update cats ",req.user.id);
     User.findOne({_id: req.user.id}, function (err, user){
-      if(err){
+      if(err) {
         res.send(err);
-      } 
-      console.log(req.body.categories.category);
-      user.categories.push({name: req.body.categories.category});
-      console.log(user.categories);
+      }
+      console.log(user.categories)
+      if (user.categories.indexOf(req.body.categories.category) === -1){
+        user.categories.push(req.body.categories.category);
+      }
       user.save(function(err) {
         if (err) {
           res.send(err);
