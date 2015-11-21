@@ -20,4 +20,9 @@ ArticleSchema.pre('save', function (next){
   next();
 });
 
+ArticleSchema.pre('save', function (next){
+  this.category = this.categories[0];
+  next();
+});
+
 module.exports = mongoose.model('Article', ArticleSchema);
