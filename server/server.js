@@ -78,6 +78,7 @@ passport.deserializeUser(function(id, done) {
 
 app.use(function (req, res, next){
   if(req.originalUrl === '/api/auth/callback'){
+    console.log('req cookies', req.cookies);
     next();
   }
   if(!req.user){

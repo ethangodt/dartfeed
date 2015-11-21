@@ -10,8 +10,7 @@ module.exports = {
     numPopularArticles = 5; // number of articles to return for 'popular' parameter
     numArticlesPerPage = 20; // for future feature: add 'offset' parameter to limit # of articles returned
 
-    var popular = req.query.popular; 
-
+    var popular = req.query.popular;
     var categories = req.user.categories.map(function (cat) {
       return JSON.parse(JSON.stringify(cat)).name // very weird bug: can only access 'name' property by doing this
       // if you figure out why, let Greg know
