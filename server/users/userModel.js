@@ -1,3 +1,4 @@
+// todo make sure that usernames are unique
 var mongoose = require('mongoose');
 
 var UserCategorySchema = new mongoose.Schema({

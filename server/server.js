@@ -1,56 +1,56 @@
-var express = require('express'); 
+var express = require('express');
 var session = require('express-session');
-var mongoose = require('mongoose'); 
-var router = require('./router.js'); 
-var bodyParser = require('body-parser'); 
-var cookieParser = require('cookie-parser'); 
-var passport = require('passport')
+var mongoose = require('mongoose');
+var router = require('./router.js');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
-var config = require('./config.js'); 
-var User = require('./users/userModel.js'); 
+var config = require('./config.js');
+var User = require('./users/userModel.js');
 var logger = require('./middleware/logger');
 var defaultUser = require('./middleware/defaultUser');
 
-mongoose.connect('mongodb://localhost/dartfeed'); 
+mongoose.connect('mongodb://localhost/dartfeed');
 
 var app = express();
-var expressRouter = express.Router(); 
+var expressRouter = express.Router();
 app.use(express.static(__dirname + '/../client'));
 
 app.use(cookieParser());
 
 // parse application/x-www-form-urlencoded and application/json
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 //set up facebook auth
-app.use(session({secret: 'marmot'}));  
-app.use(passport.initialize()); 
-app.use(passport.session()); 
+app.use(session({secret: 'marmot'}));
+app.use(passport.initialize());
+app.use(passport.session());
 passport.use(new FacebookStrategy({
     clientID: config.fbClientID,
     clientSecret: config.fbClientSecret,
-    callbackURL: config.fbCallback 
+    callbackURL: config.fbCallback
     //profileFields: ['email', 'profileUrl']
   },
   function(accessToken, refreshToken, profile, done) {
-      ///store in the db
-      User.findOne({fbId:profile.id}, function(err, user){
-        if(!user){
-          return User.create({
-            username: profile.displayName,
-            fbToken: accessToken, 
-            fbId: profile.id
-          });
+    ///store in the db
+    User.findOne({fbId: profile.id}, function(err, user){
+      if (!user) {
+        return User.create({
+          username: profile.displayName,
+          fbToken: accessToken,
+          fbId: profile.id
+        });
 
-        } else {
-          //return existing user
-          return user; 
-        }
-      })
-      .then(function (user){
-        done(null, user);
-      });
+      } else {
+        //return existing user
+        return user;
+      }
+    })
+    .then(function (user){
+      done(null, user);
+    });
   }
 ));
 
@@ -71,7 +71,7 @@ passport.deserializeUser(function(id, done) {
       done(null, user);
     } else {
       //if not, call done with false
-      done(null, false); 
+      done(null, false);
     }
   });
 });
@@ -89,10 +89,10 @@ app.use(function (req, res, next){
 });
 
 //set up router 
-app.use('/', expressRouter); 
-router(expressRouter); 
+app.use('/', expressRouter);
+router(expressRouter);
 
-app.listen(8000); 
+app.listen(8000);
 
 module.exports = app; 
 

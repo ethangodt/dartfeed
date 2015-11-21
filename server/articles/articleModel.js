@@ -1,5 +1,9 @@
 var mongoose = require('mongoose');
 
+var ArticleCategorySchema = new mongoose.Schema({
+  categoryID: String,
+  name: String
+}, { _id: false});
 
 var ArticleSchema = new mongoose.Schema({
   title : String,
@@ -7,24 +11,10 @@ var ArticleSchema = new mongoose.Schema({
   summary: String,
   source: String,
   imgURL: String,
-  date: Date, 
-  categories: [],
-  category:String,
+  date: Date,
+  categories: [ArticleCategorySchema],
   visitsCount : Number,
-  metadata : String,
-  userLikes:mongoose.Schema.Types.Mixed
-});
-
-ArticleSchema.pre('save', function (next){
-  this.category = this.categories[0];
-  next();
-
-});
-
-ArticleSchema.pre('save', function (next){
-  this.category = this.categories[0];
-  next();
-
+  metadata : String
 });
 
 module.exports = mongoose.model('Article', ArticleSchema);
