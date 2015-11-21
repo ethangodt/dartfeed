@@ -19,6 +19,7 @@ module.exports = {
     if ( popular ) {
       Article.find({}).sort({ visitsCount: -1 })
         .then(function (topArticles) {
+          console.dir(topArticles);
           topArticles.splice(numPopularArticles,topArticles.length);
           res.send(topArticles);
           return topArticles;

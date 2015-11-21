@@ -12,12 +12,12 @@ var dart = angular.module('dartnews', [
       controller: 'UserController'
     })
     .when('/feed', {
-      templateUrl: '/app/feed/feed.html',
+      templateUrl: '/app/newUserPage/newUserPage.html',
       controller: 'FeedController'
     })
     .otherwise({
       redirectTo: '/feed',
-      templateUrl: '/app/feed/feed.html',
+      templateUrl: '/app/newUserPage/newUserPage.html',
       controller: 'FeedController'
     });
 });
