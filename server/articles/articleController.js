@@ -4,8 +4,6 @@ var User = require('../users/userModel');
 var Promise = require('bluebird');
 Promise.promisifyAll(require('mongoose')); // todo this needs to be fixed
 
-
-
 var getArticles = function (req, res, next) {
   User.findOne({_id: req.user.id})
     .exec(function (err, user){
