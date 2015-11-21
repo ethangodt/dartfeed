@@ -1,0 +1,33 @@
+#sidebar {
+    position:absolute;
+    top:0; bottom:0; left:0;
+    width:150px;
+    background-color:rgba(0,0,0, 0.3);
+}
+
+.sidebarText {
+  padding-top:10px;
+  padding-left:20px;
+  opacity:1;
+}
+
+.categoriesList {
+  margin-top:0px;
+  list-style-type:none;
+  padding-left:0px;
+}
+
+#categoriesListHeader {
+  margin-top:100px;
+  text-decoration:underline;
+}
+
+.categoriesList a {
+  position:fixed;
+  left:100px;
+}
+
+#signOut {
+  position:fixed;
+  bottom:20px;
+}
