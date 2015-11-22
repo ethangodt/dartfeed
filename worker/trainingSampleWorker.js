@@ -7,18 +7,19 @@ var mongoose = require('mongoose');
 var trainingSampleCtrl = require('../server/trainingSample/trainingSampleController');
 var monkeyLearn = require('./analysis_module/UserTreeInterface');
 
-//var trainingSamples
-monkeyLearn.getUserCategoryIdsForAllTrees(function (payload) {
-  console.log(payload);
-});
-
 // pull all training samples and assign to variable
 trainingSampleCtrl.getAllTrainingSamples()
   .then(function (trainingSamples) {
-    console.log(trainingSamples);
+    // console.log(trainingSamples);
   });
 
 // pull all the category information from the monkeyLearn api and assign to variable
+monkeyLearn.getUserCategoryIdsForAllTrees(function (payload) {
+  // any function that uses the all trees abstraction should come with an object where categories are keys
+});
+
 // pair ml and samples into array of objects like [{text: summary, categoryId: userId}]
-// call add samples function for each category from the database
-// as callback to addAllSamples call function to train monkey
+
+// call addSamples function for each category from the database
+
+// when all samples have been added, call train monkey

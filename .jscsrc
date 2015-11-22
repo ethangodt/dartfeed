@@ -1,0 +1,8 @@
+{
+  "preset": "google",
+  "maxErrors": 100,
+  "disallowSpacesInFunction": null,
+  "disallowSpacesInFunctionExpression": null,
+  "disallowSpacesInAnonymousFunctionExpression": null,
+  "disallowSpacesInFunctionDeclaration": null
+}

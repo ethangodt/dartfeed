@@ -17,10 +17,6 @@ var tCrunchRSS = new tCrunchRSS();
 
 
 var sendToDb = function (obj) {
-  if (obj === null) {
-    console.log("Debug this: obj is null; return");
-    return;
-  }
 
   request.post({
     url: 'http://127.0.0.1:8000/api/articles', //URL to hit
@@ -35,16 +31,14 @@ var sendToDb = function (obj) {
     }
   });
 
-}
+};
 
 var collectCategories = function () {
   var timeoutFactor = 120000;
 
-
   setTimeout(function () {
-
     tCrunchRSS.init(function (obj) {
-
+      console.log(obj);
       feedCat.analyzeContentCallbackPromise(obj.summary)
         .then(function (category) {
           if (obj.categories === undefined) {
@@ -54,104 +48,103 @@ var collectCategories = function () {
           sendToDb(obj);
         })
         .catch(function (error) {
-          console.log("Error", error);
+          console.error("Error", error);
         });
-    })
+    });
   }, (0 * timeoutFactor));
 
-
-  setTimeout(function () {
-
-    cnetRSS.init(function (obj) {
-
-      feedCat.analyzeContentCallbackPromise(obj.summary)
-        .then(function (category) {
-          if (obj.category === undefined) {
-            obj.category = ["GeneralTech"];
-          }
-          obj.category = [category];
-          sendToDb(obj);
-        })
-        .catch(function (error) {
-          console.log("Error", error);
-        });
-    })
-  }, (1 * timeoutFactor));
-
-
-  setTimeout(function () {
-
-    hrNewsRSS.init(function (obj) {
-
-      feedCat.analyzeContentCallbackPromise(obj.summary)
-        .then(function (category) {
-          if (obj.category === undefined) {
-            obj.category = ["GeneralTech"];
-          }
-          obj.category = [category];
-          sendToDb(obj);
-        })
-        .catch(function (error) {
-          console.log("Error", error);
-        });
-    })
-  }, (2 * timeoutFactor));
-
-
-  setTimeout(function () {
-
-    mashRSS.init(function (obj) {
-      feedCat.analyzeContentCallbackPromise(obj.summary)
-        .then(function (category) {
-          if (obj.category === undefined) {
-            obj.category = ["GeneralTech"];
-          }
-          obj.category = [category];
-          sendToDb(obj);
-        })
-        .catch(function (error) {
-          console.log("Error", error);
-        });
-    })
-  }, (3 * timeoutFactor));
-
-
-  setTimeout(function () {
-
-    nprRSS.init(function (obj) {
-
-      feedCat.analyzeContentCallbackPromise(obj.summary)
-        .then(function (category) {
-          if (obj.category === undefined) {
-            obj.category = ["GeneralTech"];
-          }
-          obj.category = [category];
-          sendToDb(obj);
-        })
-        .catch(function (error) {
-          console.log("Error", error);
-        });
-    })
-  }, (4 * timeoutFactor));
-
-
-  setTimeout(function () {
-
-    bbcRSS.init(function (obj) {
-
-      feedCat.analyzeContentCallbackPromise(obj.summary)
-        .then(function (category) {
-          if (obj.category === undefined) {
-            obj.category = ["GeneralTech"];
-          }
-          obj.category = [category];
-          sendToDb(obj);
-        })
-        .catch(function (error) {
-          console.log("Error", error);
-        });
-    })
-  }, (4 * timeoutFactor));
+  //setTimeout(function () {
+  //
+  //  cnetRSS.init(function (obj) {
+  //
+  //    feedCat.analyzeContentCallbackPromise(obj.summary)
+  //      .then(function (category) {
+  //        if (obj.category === undefined) {
+  //          obj.category = ["GeneralTech"];
+  //        }
+  //        obj.category = [category];
+  //        sendToDb(obj);
+  //      })
+  //      .catch(function (error) {
+  //        console.log("Error", error);
+  //      });
+  //  })
+  //}, (1 * timeoutFactor));
+  //
+  //
+  //setTimeout(function () {
+  //
+  //  hrNewsRSS.init(function (obj) {
+  //
+  //    feedCat.analyzeContentCallbackPromise(obj.summary)
+  //      .then(function (category) {
+  //        if (obj.category === undefined) {
+  //          obj.category = ["GeneralTech"];
+  //        }
+  //        obj.category = [category];
+  //        sendToDb(obj);
+  //      })
+  //      .catch(function (error) {
+  //        console.log("Error", error);
+  //      });
+  //  })
+  //}, (2 * timeoutFactor));
+  //
+  //
+  //setTimeout(function () {
+  //
+  //  mashRSS.init(function (obj) {
+  //    feedCat.analyzeContentCallbackPromise(obj.summary)
+  //      .then(function (category) {
+  //        if (obj.category === undefined) {
+  //          obj.category = ["GeneralTech"];
+  //        }
+  //        obj.category = [category];
+  //        sendToDb(obj);
+  //      })
+  //      .catch(function (error) {
+  //        console.log("Error", error);
+  //      });
+  //  })
+  //}, (3 * timeoutFactor));
+  //
+  //
+  //setTimeout(function () {
+  //
+  //  nprRSS.init(function (obj) {
+  //
+  //    feedCat.analyzeContentCallbackPromise(obj.summary)
+  //      .then(function (category) {
+  //        if (obj.category === undefined) {
+  //          obj.category = ["GeneralTech"];
+  //        }
+  //        obj.category = [category];
+  //        sendToDb(obj);
+  //      })
+  //      .catch(function (error) {
+  //        console.log("Error", error);
+  //      });
+  //  })
+  //}, (4 * timeoutFactor));
+  //
+  //
+  //setTimeout(function () {
+  //
+  //  bbcRSS.init(function (obj) {
+  //
+  //    feedCat.analyzeContentCallbackPromise(obj.summary)
+  //      .then(function (category) {
+  //        if (obj.category === undefined) {
+  //          obj.category = ["GeneralTech"];
+  //        }
+  //        obj.category = [category];
+  //        sendToDb(obj);
+  //      })
+  //      .catch(function (error) {
+  //        console.log("Error", error);
+  //      });
+  //  })
+  //}, (4 * timeoutFactor));
 };
 
 collectCategories();

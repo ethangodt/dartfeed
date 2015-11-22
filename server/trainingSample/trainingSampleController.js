@@ -12,10 +12,10 @@ var addTrainingSample = function (articleID, username) {
         article: mongoose.Types.ObjectId(articleID), // building ObjectId from hash
         userID: user._id.valueOf() // extracting hash string from ObjectId
       });
-    })
+    });
 };
 
-// this function populates the article property of the doc with the actual article doc's summary
+// this function returns all samples and populates the article property of the doc with the actual article doc's summary
 var getAllTrainingSamples = function () {
   return TrainingSample.find()
     .populate('article', 'summary')

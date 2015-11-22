@@ -33,12 +33,12 @@ function _parseBody(body){
 function _feedParseAsync(){
   var bbcUrl = "http://feeds.bbci.co.uk/news/technology/rss.xml";
   var feedParser = new rssModule(bbcUrl);
-  return new Promise(function(resolve,reject){
-    feedParser.parse(function(error,responses){
+  return new Promise(function(resolve, reject){
+    feedParser.parse(function(error, responses){
       if(error){
         reject(error);
       }else{
-        resolve(responses)
+        resolve(responses);
       }
     });
   });
@@ -53,16 +53,16 @@ function test(collection,position,cb){
 
     _imageRetrieveAsync(collection[position].link,{})
     .then(function(body){
-        var response = collection[position];
-        var mongoObj = {};
-        mongoObj.source = "BBC";
-        mongoObj.title = response.title;
-        mongoObj.linkURL = response.link;
-        mongoObj.date = new Date(response.published).toISOString();
-        mongoObj.summary = response.content;
-        mongoObj.categories=[];
-        mongoObj.imgURL = _parseBody(body).trim();
-        cb(mongoObj);
+      var response = collection[position];
+      var mongoObj = {};
+      mongoObj.source = "BBC";
+      mongoObj.title = response.title;
+      mongoObj.linkURL = response.link;
+      mongoObj.date = new Date(response.published).toISOString();
+      mongoObj.summary = response.content;
+      mongoObj.categories=[];
+      mongoObj.imgURL = _parseBody(body).trim();
+      cb(mongoObj);
     }).catch(function(err){
       console.log(err);
     });
