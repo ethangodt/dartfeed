@@ -1,8 +1,12 @@
 var request = require('request');
 var _ = require('underscore');
 var token = require('../../server/config.js').monkeyLearnToken;
-var Promise = require('bluebird');
 
+
+//If any of the trees change then the id and root id will have to be updated
+//id can be found when veiwing the GUI at app.monkeylearn.com
+//you can get the root id by logging the result of getUserCategoryIdsForTree of the 
+//tree that's been changed.  Or getUserCategoryIdsForAllTrees if you need to update all of them.
 var trees = {
   'Art & Culture': {
     id: 'cl_XZPRupgQ',
@@ -30,13 +34,23 @@ var trees = {
   }
 };
 
-var treeArr = ['Art & Culture', 'Business', 'Living', 'Science & Technology', 'Sports', 'World'];
 
+//an array of the keys from trees.  used in execOnAllTrees.
+var treeArr = _.map(trees, function (value, treeName) {
+  return treeName;
+})
+
+//counts elements in trees
 var numTrees = _.reduce(trees, function (acc, id) {
   return acc + 1;
 }, 0);
 
 var execOnAllTrees = function (fn) {
+  //takes in a function and calls it once for every element in trees throttled to one call every second
+  //the function must take a callback as it's last argument.  All other arguments passed into the returned
+  //function will be passed to every function call.  the resulting function must be called with a callback as
+  //it's last argument.  the results of all function calls will be passed into this callback in an object with
+  //the results keyed to their treeName.
   var funcArr = _.map(trees, function (id, treeName) {
     return fn.bind(null, treeName);
   });
@@ -46,11 +60,11 @@ var execOnAllTrees = function (fn) {
     var treeNameToRes = {};
     var counter = 0;
     var timeoutCounter = 0;
-    _.each(funcArr, function (func, treeName) {
-      setTimeout(function (fn, treeName) {
+    _.each(funcArr, function (func, treeNum) {
+      setTimeout(function (fn, treeNum) {
         fn.apply(null, args.concat([
           function (result) {
-          treeNameToRes[treeArr[treeName]] = result
+          treeNameToRes[treeArr[treeNum]] = result
           counter ++;
           if(counter >= numTrees) {
             console.log('bulk query finished!')
@@ -66,9 +80,24 @@ var execOnAllTrees = function (fn) {
 
 module.exports = {
   classify: function (treeName, articleArr, callback) {
-    var id = treeName === 'Public' ? 'cl_hS9wMk9y' : trees[treeName].id;
+    //articleArr is an array of strings.  tree name is the key from the trees object.  if it is set to 'Public'
+    //the function will use the news categories calssifier.
+    //returns an array of arrays of objects. the nested arrays correspond to the strings in articleArr 
+    //sequentially.  each object has a category label property and a probability property.
+    //ex:
+    //articleArr = ['string1', 'string2'];
+    //return = [ 
+    //  [
+    //    {label: 'first category of string1', probability: <decimal number>}, 
+    //    {label: 'second category of string1', probability: <decimal number>} ...
+    //  ],
+    //  [
+    //    {label: 'category of string2', probability: <decimal number>} ...
+    //  ]
+    var URL = treeName === 'Public' ? 'https://api.monkeylearn.com/v2/classifiers/cl_hS9wMk9y/classify/?' : 'https://api.monkeylearn.com/v2/classifiers/' + trees[treeName].id + '/classify/?sandbox=1';
+    console.log(URL);
     request.post({
-      url: 'https://api.monkeylearn.com/v2/classifiers/' + id + '/classify/?sandbox=1',
+      url: URL,
       headers: {
         'Authorization': 'token ' + token
       },
@@ -76,15 +105,24 @@ module.exports = {
         text_list: articleArr
       })
     }, function (err, res) {
-      var categoryScores = JSON.parse(res.body).result
-      if(err) {
+      // console.log('res: ', res);
+      if(err || res.statusCode >= 400) {
         console.log('error in userTree.classify:', err)
+        console.log('statusCode', res.statusCode);
       } else {
+        var categoryScores = JSON.parse(res.body).result
         callback(categoryScores);
       }
     });
   },
   addSamples: function (treeName, dbTrainingArr, callback) {
+    //dbTrainingArr is an array of objects where each object has a 'text' property with the sample text
+    //and a category_id property with the category that text should correspond to.
+    //ex:
+    //[
+    //  {text: 'sample 1', category_id: <id obtained from getUserCategoryIdsForTree>},
+    //  {text: 'sample 2', category_id: <id obtained from getUserCategoryIdsForTree>} ...
+    //]
     request.post({
       url: 'https://api.monkeylearn.com/v2/classifiers/' + trees[treeName].id + '/samples/',
       headers: {
@@ -94,36 +132,46 @@ module.exports = {
         samples: dbTrainingArr
       }
     }, function (err) {
-      if(err) {
+      if(err || res.statusCode >= 400) {
         console.log('error in userTree.addSamples:', err)
+        console.log('statusCode', res.statusCode);
       } else {
         callback();
       }
     });
   },
   startTraining: function (treeName, callback) {
+    //trains samples that have been added to the tree
     request.post({
       url: 'https://api.monkeylearn.com/v2/classifiers/' + trees[treeName].id + '/train/',
       headers: {
         'Authorization': 'token ' + token
       },
     }, function (err, res) {
-      if(err) {
+      if(err || res.statusCode >= 400) {
         console.log('error in userTree.startTraining:', err)
+        console.log('statusCode', res.statusCode);
       } else {
         callback(res);
       }
     });
   },
   getUserCategoryIdsForTree: function (treeName, callback) {
+    //returns an object with category labels as keys and their corresponding ids as values.
+    //ex:
+    //{
+    //  'category1' : <category_id>,
+    //  'category2' : <category_id> ...
+    //}
     request.get({
       url: 'https://api.monkeylearn.com/v2/classifiers/' + trees[treeName].id + '/',
       headers: {
         'Authorization': 'token ' + token
       },
     }, function (err, res) {
-      if(err) {
+      if(err || res.statusCode >= 400) {
         console.log('error in userTree.getUserCategoryIdsForTree:', err)
+        console.log('statusCode', res.statusCode);
       } else {
         var userNameToId = _.reduce(JSON.parse(res.body).result.sandbox_categories, function (acc, catObj) {
           acc[catObj.name] = catObj.id;
@@ -134,6 +182,7 @@ module.exports = {
     });
   },
   addUserToTree: function (treeName, username, callback) {
+    //adds username as a category id to the given tree.
     request.post({
       url: 'https://api.monkeylearn.com/v2/classifiers/' + trees[treeName].id + '/categories/',
       headers: {
@@ -148,54 +197,15 @@ module.exports = {
         console.log('error in userTree.addUserToTree:', err);
         console.log('statusCode', res.statusCode);
       } else {
-        console.log(username)
         callback();
       }
     });
   }
 };
+//these functions correspond to their single tree counterparts but run them for all elements in trees
+//the api calls are throttled to 1 every second.
 module.exports['addUserToAllTrees'] = execOnAllTrees(module.exports.addUserToTree);
 module.exports['getUserCategoryIdsForAllTrees'] = execOnAllTrees(module.exports.getUserCategoryIdsForTree);
 module.exports['startTrainingAll'] = execOnAllTrees(module.exports.startTraining);
-// module.exports['addAllSamples'] = execOnAllTrees(module.exports.addSamples);
-
-var sample = {
-  text: "A study in the Netherlands backs up a long-held claim of quantum theory, one that Einstein refused to accept, that objects separated by great distance could affect each other\u2019s behavior.","abstract":"Scientists from Delft University of Technology in the Netherlands publish study in journal Nature finding objects separated by great distances can instantaneously affect each other\u2019s behavior, proving one of most fundamental claims of quantum theory",
-  user: "test",
-  tree: 'Science & Technology'
-}
-
-var testMode = 3;
-
-if(testMode === 0) {
-  module.exports.getUserCategoryIdsForTree(sample.tree, function (resWithRoot) {
-    module.exports.addUserToTree(sample.tree, sample.user, function () {
-      module.exports.addUserToTree(sample.tree, sample.user+2, function () {
-
-        module.exports.getUserCategoryIdsForTree(sample.tree, function (res) {
-          console.log(res);
-          
-          module.exports.addSamples(sample.tree, [{text: sample.text, category_id: res[sample.user]}], function () {
-
-            console.log('\nadded Samples!');
-
-            module.exports.startTraining(sample.tree, function (tRes) {
-              console.log('\n Training Started!');
-            });
-
-          });
-
-        });
-
-      })
-    })
-  })
-} else if (testMode === 1) {
-  module.exports.startTraining(sample.tree, function (tRes) {});
-} else if(testMode === 2) {
-  module.exports.classify('Public', [sample.text], function (res) {
-    console.log(res);
-  })
-}
 
 
