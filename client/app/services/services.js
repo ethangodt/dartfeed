@@ -20,7 +20,7 @@ angular.module('dartnews.services', [])
       url: '/api/categories', 
       method: type,
       data: {
-        category: category
+        categories: category
       }
     });
   };

@@ -2,22 +2,18 @@ angular.module('dartnews.feed', [])
 .controller('FeedController', function ($scope, $window, $location, Feed) {
   $scope.errSrc = "http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2011/11/data-farm-537x399.jpg";
 
-  Feed.updateUserCategories('HealthTech');
 
-  $scope.getData = function (){
+  var getData = function (){
     Feed.getUserProfile()
       .then(function (user){
-        console.log('user = ', user);
         //$scope.user = user; 
       })
     Feed.getCategories()
       .then(function (categories){
-        console.log('categories = ', categories);
         //$scope.categories = categories; 
       })
     Feed.getArticlesForUser()
       .then(function (articles){
-        console.log('articles = ', articles);
         //$scope.articles = articles;
       });
   };
@@ -26,30 +22,31 @@ angular.module('dartnews.feed', [])
     $scope.allCategories = appData.allCats;
     $scope.userCategories = appData.userCats;
     $scope.articles = appData.articles;
-    for(var i = 0; i < $scope.articles.length; i++){
+    /*for(var i = 0; i < $scope.articles.length; i++){
       var normalizedScore = $scope.articles[i].score
       $scope.redShade[i] = {
         color: 'rgb(' + $scope.articles[i].score
       }
-    }
+    }*/
   }
 
   $scope.getArticlesForUser = function (){
     Feed.getArticlesForUser()
       .then(function (response){
+        console.log('rsponse data = ', response.data)
         updateData(response.data);
       });
   };
 
   $scope.removeCategory = function (categoryIndex){
-    Feed.updateUserCategories($scope.user.categories[categoryIndex], 'DELETE')
+    Feed.updateUserCategories($scope.userCategories[categoryIndex], 'DELETE')
     .then(function(response){
       updateData(response.data);
     });
   };
 
-  $scope.addCategory = function (categoryIndex){
-    Feed.updateUserCategories($scope.user.categories[categoryIndex], 'PUT')
+  $scope.addCategory = function (category){
+    Feed.updateUserCategories(category, 'PUT')
     .then(function(response){
       updateData(response.data);
     });
@@ -65,16 +62,14 @@ angular.module('dartnews.feed', [])
   };
 
   $scope.categoryFilter = function (filterInput) {
-    for (var i = 0; i < $scope.user.categories.length; i++){
-      if(filterInput === $scope.user.categories[i]){
+    for (var i = 0; i < $scope.userCategories.length; i++){
+      if(filterInput === $scope.userCategories[i]){
         return false;
       }
     }
     return true;
   };
 
-  //remove this when client <--> server is established
-  $scope.articles = testData;
-  $scope.user = testUser;
-  $scope.allCategories = testAllCategories;
+  $scope.getArticlesForUser();
+
 });
