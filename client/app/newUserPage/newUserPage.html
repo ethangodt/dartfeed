@@ -3,17 +3,17 @@
     <div id="addCategoryHeader">Add Category</div>
     <ul class="categoriesToAdd">
       <li ng-repeat="category in allCategories | filter: categoryFilter">{{ category }}
-        <span class="addCategory" ng-click="addCategory($index)">(+)</span>
+        <span class="addCategory" ng-click="addCategory(category)">(+)</span>
       </li>
     </ul>
     <div id="categoriesListHeader">Categories</div>
     <ul class="categoriesList">
       <li>Show All</li>
-      <li ng-repeat="category in user.categories"> {{ category }} 
+      <li ng-repeat="category in userCategories track by $index"> {{ category }}
         <span class="delete" ng-click="removeCategory($index)">(-)</span>
       </li>
     </ul>
-    <a href="/api/auth/signout" id="signOut">Sign Out</div>
+    <a href="/api/auth/signout" id="signOut">Sign Out</a>
   </div>
 </div>
 <div id="articlesContainer">
