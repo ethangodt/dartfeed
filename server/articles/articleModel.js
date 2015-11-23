@@ -9,7 +9,7 @@ var ArticleSchema = new mongoose.Schema({
   title : String,
   linkURL: String,
   summary: String,
-  source: String,
+  source: String, // todo change this to 'publisher'
   imgURL: String,
   date: Date,
   categories: [ArticleCategorySchema],

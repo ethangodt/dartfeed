@@ -6,14 +6,15 @@
 /*
 The formatted article objects look like:
 
-{ title: '\'Spying\' on Islamic State instead of hacking them',
-    linkURL: 'http://www.bbc.co.uk/news/blogs-trending-34879990#sa-ns_mchannel=rss&ns_source=PublicRSS20-sa',
-    publisher: 'BBC News - Home',
-    content: 'Meet the splinter group of online vigilantes targeting Islamic State',
-    imgURL: 'http://ichef-1.bbci.co.uk/news/1024/cpsprodpb/8501/production/_86794043_hacker1.png',
-    date: Sun Nov 22 2015 16:32:04 GMT-0800 (PST),
-    category: null
-},
+{
+  title: '\'Spying\' on Islamic State instead of hacking them',
+  linkURL: 'http://www.bbc.co.uk/news/blogs-trending-34879990#sa-ns_mchannel=rss&ns_source=PublicRSS20-sa',
+  publisher: 'BBC News - Home',
+  content: 'Meet the splinter group of online vigilantes targeting Islamic State',
+  imgURL: 'http://ichef-1.bbci.co.uk/news/1024/cpsprodpb/8501/production/_86794043_hacker1.png',
+  date: Sun Nov 22 2015 16:32:04 GMT-0800 (PST),
+  category: null
+}
 */
 
 var Promise = require('bluebird');

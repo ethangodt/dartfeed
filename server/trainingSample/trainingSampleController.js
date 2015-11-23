@@ -3,7 +3,7 @@ var TrainingSample = require('./trainingSampleModel');
 var User = require('../users/userModel.js');
 
 var addTrainingSample = function (articleID, username) {
-  // todo may need to change username to userID or something — it depends on what id is passed: fb or mongo
+  // todo may need to change username to userID, or something — it depends on what id is passed: fb or mongo
   User.find({username: username}).exec() // convert client friendly username to userID hash
     .then(function (user) {
       user = user[0];
