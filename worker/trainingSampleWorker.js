@@ -5,22 +5,61 @@ var db = require('./dbInit');
 var mongoose = require('mongoose');
 var trainingSampleCtrl = require('../server/trainingSample/trainingSampleController');
 var monkeyLearn = require('./analysis_module/UserTreeInterface');
+var _ = require('underscore');
 
 // pull all training samples and assign to variable
 trainingSampleCtrl.getAllTrainingSamples()
   .then(function (trainingSamples) {
-    console.log(trainingSamples);
+    return trainingSamples.reduce(function (acc, sample) {
+      acc[sample.article.category] = (acc[sample.article.category]) ? acc[sample.article.category].push(sample) : [sample];
+      return acc;
+    }, {});
+  })
+  // format the rawSamplesByCategory that came directly from db
+  .then(function (rawSamplesByCategory) {
+    // fetch user ids from monkey learn
+    return monkeyLearn.getUserCategoryIdsForAllTrees()
+      // reformat the sample to include summary and user sub-category id (from monkey learn)
+      .then(function (idsByTree) {
+        _.each(rawSamplesByCategory, function (rawSampleList, category) {
+          rawSamplesByCategory[category] = rawSampleList.map(function (sample) {
+            return {
+              text: sample.summary,
+              categoryId: idsByTree[category][sample.userID]
+            };
+          });
+        });
+        return rawSamplesByCategory; // at this point fully formatted
+      });
+  })
+  // make calls to add training to monkey learn by category
+  .then(function (samplesByCategory) {
+    return new Promise(function (resolve, reject) {
+      var categories = Object.keys(samplesByCategory);
+      var expectedCalls = categories.length;
+      var count = 0;
+
+      var makeDelayedCall = function () {
+        if (count === expectedCalls) {
+          resolve();
+          return;
+        }
+        // this is used because the monkeyLearn API blocks requests that are too frequent
+        setTimeout(function () {
+          var category = categories[count];
+          monkeyLearn.addSamples(category, samplesByCategory[category], function () {
+            count++;
+            makeDelayedCall();
+          });
+        }, 1500);
+      };
+
+      makeDelayedCall(); // called once here, will keep calling itself until all samples are added
+    });
+  })
+  // start training the monkey
+  .then(function () {
+    monkeyLearn.startTrainingAll(function () {
+      console.log('Samples have been successfully add to Monkey Learn!');
+    });
   });
-
-// pull all the category information from the monkeyLearn api and assign to variable
-monkeyLearn.getUserCategoryIdsForAllTrees(function (payload) {
-  // any function that uses the all trees abstraction should come with an object where categories are keys
-});
-
-// may have to separate calls in time to avoid monkey learn limit
-
-// pair ml and samples into array of objects like [{text: summary, categoryId: userId}]
-
-// call addSamples function for each category from the database
-
-// when all samples have been added, call train monkey

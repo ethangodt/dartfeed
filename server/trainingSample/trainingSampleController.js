@@ -18,7 +18,7 @@ var addTrainingSample = function (articleID, username) {
 // this function returns all samples and populates the article property of the doc with the actual article doc's summary
 var getAllTrainingSamples = function () {
   return TrainingSample.find()
-    .populate('article', 'summary')
+    .populate('article', 'category summary')
     .exec();
 };
 
