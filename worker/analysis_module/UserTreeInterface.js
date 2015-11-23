@@ -72,7 +72,7 @@ var execOnAllTrees = function (fn) {
           }
           }]
         ));
-      }.bind(null, func, treeName), timeoutCounter*1000),
+      }.bind(null, func, treeNum), timeoutCounter*1000),
       timeoutCounter++;
     });
   }
@@ -95,22 +95,26 @@ module.exports = {
     //    {label: 'category of string2', probability: <decimal number>} ...
     //  ]
     var URL = treeName === 'Public' ? 'https://api.monkeylearn.com/v2/classifiers/cl_hS9wMk9y/classify/?' : 'https://api.monkeylearn.com/v2/classifiers/' + trees[treeName].id + '/classify/?sandbox=1';
+    var tok = treeName === 'Public' ? '388012c35b27f1bef21f91041c6e7327dcb01e1f' : token
     console.log(URL);
+    console.log(JSON.stringify({
+        text_list: articleArr
+      }))
     request.post({
       url: URL,
       headers: {
         'Authorization': 'token ' + token
       },
-      json : JSON.stringify({
+      json: {
         text_list: articleArr
-      })
+      }
     }, function (err, res) {
       // console.log('res: ', res);
       if(err || res.statusCode >= 400) {
         console.log('error in userTree.classify:', err)
         console.log('statusCode', res.statusCode);
       } else {
-        var categoryScores = JSON.parse(res.body).result
+        var categoryScores = res.body.result
         callback(categoryScores);
       }
     });
@@ -208,4 +212,17 @@ module.exports['addUserToAllTrees'] = execOnAllTrees(module.exports.addUserToTre
 module.exports['getUserCategoryIdsForAllTrees'] = execOnAllTrees(module.exports.getUserCategoryIdsForTree);
 module.exports['startTrainingAll'] = execOnAllTrees(module.exports.startTraining);
 
+var randomReadableChar = function () {
+  var code = Math.floor(Math.random()*127);
+  code = code < 32 ? 32 : code; //average word length will be around 4 letters;
+  return String.fromCharCode(code)
+}
 
+//makes random string of a given length.
+var makeDummyText = function (length) {
+  var dummyText = '';
+  for(var i = 0; i < length; i++) {
+    dummyText += randomReadableChar();
+  }
+  return dummyText;
+}
