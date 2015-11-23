@@ -1,7 +1,4 @@
-var request = require('request');
 var _ = require('underscore');
-var token = require('../../server/config.js').monkeyLearnToken;
-var Promise = require('bluebird');
 var userTreeCtrl = require('./UserTreeInterface');
 
 var trees = {
@@ -31,25 +28,59 @@ var trees = {
   }
 };
 
-var dummyText = '';
-var dummy = 'Dummy'
+//for debugging
+// userTreeCtrl.getUserCategoryIdsForAllTrees = function (callback) {
+//   callback();
+// };
+// userTreeCtrl.addUserToAllTrees = function(text, callback) {
+//   callback();
+// };
+// userTreeCtrl.addSample = function(stuff, callback) {
+//   callback();
+// }
+// userTreeCtrl.startTrainingAll = function (callback) {
+//   callback();
+// }
 
-for(var i = 0; i < 3000; i++) {
-  var code = Math.floor(Math.random()*127);
-  code = code < 32 ? 32 : code;
-  dummyText += String.fromCharCode(code)
+var randomReadableChar = function () {
+    var code = Math.floor(Math.random()*127);
+    code = code < 32 ? 32 : code; //average word length will be around 4 letters;
+    return String.fromCharCode(code)
 }
 
-module.exports.initDummies = function (text) {
-  // userTreeCtrl.getUserCategoryIdsForAllTrees(function (ids) {
-      // userTreeCtrl.addUserToAllTrees(dummy+2, function () {
-      //   console.log('wut')
-      // })
-  // })
-  userTreeCtrl.startTrainingAll(function () {
-    console.log('done')
-  })
+var makeDummyText = function (length) {
+//makes random string of a given length.
+  var dummyText = '';
+  for(var i = 0; i < length; i++) {
+    dummyText += randomReadableChar();
+  }
+  return dummyText;
 }
 
-module.exports.initDummies(dummyText);
-// console.log(dummyText)
+module.exports.initDummies = function () {
+  //adds a user to all trees.  adds a sample to that user for all trees.
+  //trains if there are at least two users.
+  //must run twice to test classify
+  //if run once, cannot classify until at least one user has been added
+  var dummy = makeDummyText(10);
+
+  var dummyText = makeDummyText(3000);
+
+  userTreeCtrl.getUserCategoryIdsForAllTrees(function (ids) {
+    // console.log(ids) //uncomment if you need to know the rootIds.
+    var countIds = _.reduce(ids['Living'], function (acc) {
+      return acc + 1;
+    }, 0);
+    userTreeCtrl.addUserToAllTrees(dummy+2, function () {
+      _.each(trees, function (value, treeName) {
+        userTreeCtrl.addSample([{text: dummyText, category_id: ids[dummy]}], function () {
+          if(countIds > 2) {
+            userTreeCtrl.startTrainingAll(function () {
+              console.log('initialized dummy users');
+            });
+          }
+        });
+      });
+    });
+  });
+};
