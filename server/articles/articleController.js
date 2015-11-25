@@ -1,46 +1,66 @@
 var Article = require('./articleModel');
 var Category = require('../categories/categoryModel');
+var User = require('../users/userModel');
 var Promise = require('bluebird');
 Promise.promisifyAll(require('mongoose'));
 
 
 
 var getArticles = function (req, res, next) {
-  var categories = req.user.categories;
-  var resBody = {};
-  resBody.articles = [];
-  Article.find()
-    .in('categories',categories)
-    .then(function (articles) {
-      resBody.articles = articles;
-      resBody.userCats = categories;
-      Category.find({})
-        .then(function (cats){
-          //resBody.allCats = cats.map(function(cat){
-          //  return cat.name;
-          //})
-          resBody.allCats = ['MoneyTech', 'Cats']
-          res.json(resBody);
+  User.findOne({_id: req.user.id})
+    .exec(function (err, user){
+      var categories = user.categories;
+      var resBody = {};
+      resBody.articles = [];
+      Article.find()
+        .in('categories',categories)
+        .then(function (articles) {
+          articles.forEach(function (art) {
+            art.userLikes = !!art.userLikes[req.user.id];
+          });
+          resBody.articles = articles;
+          resBody.userCats = categories;
+          Category.find({})
+            .then(function (cats){
+              resBody.allCats = cats.map(function(cat){
+                return cat.name;
+              });
+              res.json(resBody);
+            });
         });
     });
 };
 
-  var insertArticles = function (req, res, next) {
-    var articleData = req.body;
-    articleData.forEach(function (articleData) {
-      articleData.date = new Date(articleData.date);
-      articleData.visitsCount = 0;
-      articleData.metadata = 0; //for potential features later
-      var catPromises = [];
-      var catData = [];
-      Article.create(articleData);
-      res.send();
+var insertArticles = function (req, res, next) {
+  var articleData = req.body;
+  articleData.forEach(function (articleData) {
+    articleData.date = new Date(articleData.date);
+    articleData.visitsCount = 0;
+    articleData.metadata = 0; //for potential features later
+    var catPromises = [];
+    var catData = [];
+    Article.create(articleData);
+    res.send();
 
-    });
-  };
+  });
+};
 
+var userLike = function (req, res, next) {
+    Article.findOne({_id:req.body.articleID})
+      .exec(function (err, art){
+        if(err){
+          res.send(err);
+        } else {
+          art.userLikes = art.userLikes || {};
+          art.userLikes[req.user.id] = true;
+          art.save();
+          res.send();
+        }
+      })
+};
 
 module.exports = {
   getArticles:getArticles,
-  insertArticles:insertArticles
+  insertArticles:insertArticles,
+  userLike: userLike
 }

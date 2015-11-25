@@ -9,7 +9,6 @@ module.exports = function (req, res, next){
   };
 
   //If no user already exsists on session, create a default
-  console.log("default user middleware", req.originalUrl);
   User.findOne({fbId:5555}, function (err, user){
     if(!user){
       User.create(defaultUserObj, function (err, defaultUser){
