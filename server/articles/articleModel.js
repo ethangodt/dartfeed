@@ -11,7 +11,8 @@ var ArticleSchema = new mongoose.Schema({
   categories: [],
   category:String,
   visitsCount : Number,
-  metadata : String
+  metadata : String,
+  userLikes:[mongoose.Schema.Types.Mixed],
 });
 
 ArticleSchema.pre('save', function (next){

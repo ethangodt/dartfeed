@@ -18,9 +18,10 @@ angular.module('dartnews.services', [])
   var updateUserCategories = function (category, type){
     return $http({
       url: '/api/categories', 
-      method: type,
+      method: 'PUT',
       data: {
-        categories: category
+        category: category,
+        type:type
       }
     });
   };

@@ -9,6 +9,8 @@ local.ns
 mongod.lock
 storage.bson
 
+data/
+
 
 # Logs
 logs

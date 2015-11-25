@@ -33,7 +33,6 @@ angular.module('dartnews.feed', [])
   $scope.getArticlesForUser = function (){
     Feed.getArticlesForUser()
       .then(function (response){
-        console.log('rsponse data = ', response.data)
         updateData(response.data);
       });
   };
