@@ -3,11 +3,11 @@
 
 var db = require('./dbInit');
 var mongoose = require('mongoose');
-var trainingSampleCtrl = require('../server/trainingSample/trainingSampleController');
+var trainingSampleCtrl = require('./trainingSampleController');
 var monkeyLearn = require('./analysis_module/UserTreeInterface');
 var _ = require('underscore');
 
-// pull all training samples and assign to variable
+// pull all training samples from db
 trainingSampleCtrl.getAllTrainingSamples()
   .then(function (trainingSamples) {
     return trainingSamples.reduce(function (acc, sample) {

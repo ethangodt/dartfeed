@@ -20,9 +20,9 @@ The formatted article objects look like:
 var Promise = require('bluebird');
 var supportedFeeds = require('./supportedFeeds');
 var feedReadAsync = Promise.promisify(require('feed-read'));
-var articleCustomFormatter = require('./articleCustomFormatter');
+var articleFormatter = require('./articleFormatter');
 
-// get all feeds using feed-read
+// get all articles from feeds using feed-read
 var responses = [];
 supportedFeeds.forEach(function (feedInfo) {
   responses.push(feedReadAsync(feedInfo.rssUrl));
@@ -30,13 +30,13 @@ supportedFeeds.forEach(function (feedInfo) {
 
 // then translates responses into a db-friendly format, and scrapes for images
 module.exports = Promise.all(responses)
+  // 'responses' is an array of arrays grouped by rss feed in start order
   .then(function (responses) {
-    // 'responses' is an array of arrays grouped by rss feed in start order
     var formattedArticles = [];
     responses.forEach(function (feedList, rssIndex) {
       feedList.forEach(function (rawArticle) {
-        // the rssInfo object is passed into the formatter 2nd primarily to provide the fallback image, but could be used for other formatting info
-        formattedArticles.push(articleCustomFormatter(rawArticle, supportedFeeds[rssIndex]));
+        // the rssInfo object is passed into the formatter as 2nd arg primarily to provide the fallback image, but could be used for other formatting info
+        formattedArticles.push(articleFormatter(rawArticle, supportedFeeds[rssIndex]));
       });
     });
 

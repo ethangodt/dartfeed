@@ -6,7 +6,7 @@ module.exports = function (rawArticle, rssInfo) {
     title: rawArticle.title,
     linkURL: rawArticle.link,
     publisher: rawArticle.feed.name,
-    content: contentFormatter(rawArticle.content),
+    summary: contentFormatter(rawArticle.content),
     imgURL: null,
     date: rawArticle.published,
     category: null
