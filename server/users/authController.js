@@ -1,5 +1,7 @@
 var User = require('./userModel.js'); 
-var body = require('body-parser'); 
+var body = require('body-parser');
+var cookieParser = require('cookie-parser');
+
 
 module.exports = {
 
@@ -16,18 +18,14 @@ module.exports = {
   },
    
   signin: function (req, res, next){
-    //console.log(req);
-    console.log("user ", req.user);
-    res.send("sign in with FB page")
+    res.redirect('/#/user');
   }, 
 
   callback: function (req, res, next){
     //send back user.id in the response - client will write out localstorage value 
-    console.log("cb user", req.user);
     //res.send(req.user); //client needs to write this out
     res.redirect('/#/user');
-
-  }, 
+  },
 
   signout: function (req, res, next){
     req.session.destroy();

@@ -1,0 +1,36 @@
+<div ng-controller="FeedController" id="sidebar">
+  <div class="sidebarText"> {{user.username}}
+    <div id="addCategoryHeader">Add Category</div>
+    <ul class="categoriesToAdd">
+      <li ng-repeat="category in allCategories | filter: categoryFilter">{{ category }}
+        <span class="addCategory" ng-click="addCategory(category)">(+)</span>
+      </li>
+    </ul>
+    <div id="categoriesListHeader">Categories</div>
+    <ul class="categoriesList">
+      <li>Show All</li>
+      <li ng-repeat="category in userCategories track by $index"> {{ category }}
+        <span class="delete" ng-click="removeCategory($index)">(-)</span>
+      </li>
+    </ul>
+    <a href="/api/auth/signout" id="signOut">Sign Out</a>
+  </div>
+</div>
+<div id="articlesContainer">
+  <div>
+    <div>
+      <div ng-style="redShade[$index]" class="article" ng-repeat="obj in articles">
+        <div class="likeContainer">
+          <div ng-show="!obj.userLikes" class="likeButton" ng-click="obj.userLikes = true; likeArticle($index)">Like?</div>
+          <img src="./../../assets/images/Liked.png" ng-show="obj.userLikes" class="likeButton likeImage"/>
+        </div>
+        <a href="{{obj.linkURL}}">
+          <img class="articleImg" src="{{obj.imgURL}}" err-SRC="http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2011/11/data-farm-537x399.jpg">
+        </a>
+        <div class="articleTitle">{{obj.title}}</div>
+        <div class="articleSummary">{{obj.summary}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+

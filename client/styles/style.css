@@ -46,27 +46,25 @@
   box-shadow:         3px 3px 5px 3px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 
-section.landingHeader{
-  background-image:url("https://cdn0.iconfinder.com/data/icons/targetdart/506/target-dart.png");
+
+.landingHeader{
+  background-image: url('https://i.ytimg.com/vi/CZI9MZKfvgw/maxresdefault.jpg');
+  background-position: 25%;
   background-repeat: no-repeat;
 }
 
-div img.articleImg{
-  width:220px;
-  height:60%;
-
+img.articleImg{
+  float:left;
+  width:240px;
+  height:120px;
+  margin-right:5px;
 }
-div.article-card{
-  width: 250px;
-  border-style:solid;
-  border-width:1px;
-  margin-left:1%;
-  height:300px;
 
-}
+
 body {
-  min-height: 75rem; /* Can be removed; just added for demo purposes */
+  /*min-height: 75rem; /* Can be removed; just added for demo purposes */
 }
+
 
 .navbar {
   margin-bottom: 0;
@@ -103,7 +101,8 @@ body {
   padding-top: 6rem;
   padding-bottom: 6rem;
   margin-bottom: 0;
-  background-color: #fff;
+  background: none;
+  filter: alpha(opacity=20);
 }
 
 .jumbotron p:last-child {
@@ -119,8 +118,9 @@ body {
 }
 
 .album {
-  min-height: 50rem; /* Can be removed; just added for demo purposes */
+  /*min-height: 50rem; /* Can be removed; just added for demo purposes */
   padding-top: 3rem;
+  margin-left: 150px;
   padding-bottom: 3rem;
   background-color: #f7f7f7;
 }
@@ -150,4 +150,130 @@ footer p {
   margin-bottom: .25rem;
 }
 
+#sidebar {
+    position:fixed;
+    top:0; bottom:0; left:0;
+    width:150px;
+    background-color:rgba(0,0,0, 0.3);
+}
+
+.sidebarText {
+  padding-top:10px;
+  padding-left:20px;
+  opacity:1;
+}
+
+.sidebarText ul {
+  margin-top:0px;
+  list-style-type:none;
+  padding-left:0px;
+}
+#addCategoryHeader {
+  margin-top:40px;
+  text-decoration: underline;
+}
+#categoriesListHeader {
+  margin-top:100px;
+  text-decoration:underline;
+}
+
+.delete {
+  color: red;
+  position:absolute;
+  right:10px;
+}
+
+.delete:hover{
+  cursor:pointer;
+}
+
+.addCategory {
+  color: green;
+  position:absolute;
+  right:10px;
+}
+
+.addCategory:hover{
+  cursor:pointer;
+}
+
+#signOut {
+  position:absolute;
+  bottom:20px;
+}
+
+#articlesContainer {
+  position:absolute;
+  left:150px;
+}
+
+.article {
+  margin-left:5px;
+  margin-bottom:8px;
+  border:1px solid blue;
+  overflow:auto;
+}
+
+.articleTitle {
+  margin-bottom:10px;
+  font-size:20px;
+  font-weight:bold;
+  height:20px
+}
+
+.articleSummary {
+  overflow-y:hidden;
+  height:90px;
+  font-size:14px;
+}
+
+.likeContainer {
+  float:left;
+  height:120px;
+  width:40px;
+}
+
+.likeButton {
+  position: relative;
+  top: 45px;
+  left:4px;
+  width: 30px;
+  height: 30px;
+  border: 1px solid black;
+  border-radius: 50px;
+  font-size: 10px;
+  color: #000;
+  line-height: 28px;
+  text-align: center;
+}
+
+.likeButton:hover {
+  cursor:default;
+  background-color:#00ff00;
+}
+/* This is my failed effort to make a sidebar menu
+#addCategory:hover {
+  cursor:pointer;
+}
+
+#addCategory div {
+  height:25px;
+}
+
+#addCategory ul {
+  display:none;
+  position:relative;
+  top: -25px;
+  left: 115px;
+  background-color:orange;
+}
+
+#addCategory li:hover {
+  display:block;
+}
+
+#addCategory div:hover > ul {
+  z-index:200;
+  display:block;
+}*/
 

@@ -1,4 +1,16 @@
 ### node etc ###
+WebStorm settings
+.idea
+ dartfeed.0
+ dartfeed.ns
+journal/
+local.0
+local.ns
+mongod.lock
+storage.bson
+
+data/
+
 
 # Logs
 logs

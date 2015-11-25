@@ -19,10 +19,14 @@ module.exports = function (router) {
   router.get('/api/auth/facebook', passport.authenticate('facebook'));
   router.get('/api/auth/facebook/callback',
   passport.authenticate('facebook', { successRedirect: '/api/auth/callback', failureRedirect: '/api/auth/signin' }));
+  router.post('/api/user/like',userController.newLike);
+
 
   router.get('/api/articles', articleController.getArticles);
   router.post('/api/articles', articleController.insertArticles);
+  router.put('/api/user/like', articleController.userLike);
 
   router.get('/api/categories', categoryController.getCategories);
   router.put('/api/categories', categoryController.updateUserCategories);
+  router.delete('/api/categories', categoryController.updateUserCategories);
 }
