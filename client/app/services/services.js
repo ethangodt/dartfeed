@@ -47,7 +47,8 @@ angular.module('dartnews.services', [])
     getUserProfile: getUserProfile,
     getCategories: getCategories,
     updateUserCategories: updateUserCategories, 
-    getArticlesForUser: getArticlesForUser
+    getArticlesForUser: getArticlesForUser,
+    likeArticle:likeArticle
 
   }
 
