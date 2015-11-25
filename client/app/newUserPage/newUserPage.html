@@ -19,7 +19,7 @@
 <div id="articlesContainer">
   <div>
     <div>
-      <div ng-style="redShade[$index]" class="article" ng-repeat="obj in articles">
+      <div class="article" ng-repeat="obj in articles">
         <div class="likeContainer">
           <div ng-show="!obj.userLikes" class="likeButton" ng-click="obj.userLikes = true; likeArticle($index)">Like?</div>
           <img src="./../../assets/images/Liked.png" ng-show="obj.userLikes" class="likeButton likeImage"/>
