@@ -21,8 +21,8 @@
     <div>
       <div ng-style="redShade[$index]" class="article" ng-repeat="obj in articles">
         <div class="likeContainer">
-          <div ng-show="!obj.liked" class="likeButton" ng-click="obj.liked = true; likeArticle($index)">Like?</div>
-          <img src="./../../assets/images/Liked.png" ng-show="obj.liked" class="likeButton likeImage"/>
+          <div ng-show="!obj.userLikes" class="likeButton" ng-click="obj.userLikes = true; likeArticle($index)">Like?</div>
+          <img src="./../../assets/images/Liked.png" ng-show="obj.userLikes" class="likeButton likeImage"/>
         </div>
         <a href="{{obj.linkURL}}">
           <img class="articleImg" src="{{obj.imgURL}}" err-SRC="http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2011/11/data-farm-537x399.jpg">
