@@ -9,7 +9,7 @@
     <div id="categoriesListHeader">Categories</div>
     <ul class="categoriesList">
       <li>Show All</li>
-      <li ng-repeat="category in userCategories track by $index"> {{ category }}
+      <li ng-repeat="category in userCategories track by $index"> {{ category.name }}
         <span class="delete" ng-click="removeCategory($index)">(-)</span>
       </li>
     </ul>
@@ -19,7 +19,7 @@
 <div id="articlesContainer">
   <div>
     <div>
-      <div class="article" ng-repeat="obj in articles">
+      <div class="article" ng-style="obj.redShade" ng-repeat="obj in articles">
         <div class="likeContainer">
           <div ng-show="!obj.userLikes" class="likeButton" ng-click="obj.userLikes = true; likeArticle($index)">Like?</div>
           <img src="./../../assets/images/Liked.png" ng-show="obj.userLikes" class="likeButton likeImage"/>

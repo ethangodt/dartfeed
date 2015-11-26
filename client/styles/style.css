@@ -88,12 +88,12 @@ body {
   margin-right: 3rem;
 }
 
-.social a {
-  font-weight: 500;
-  color: #eceeef;
+a {
+  color: #000;
 }
-.social a:hover {
-  color: #fff;
+a:hover {
+  color: #000;
+  font-weight: 500;
 }
 
 .jumbotron {
@@ -184,6 +184,7 @@ footer p {
 
 .delete:hover{
   cursor:pointer;
+  font-weight: 500;
 }
 
 .addCategory {
@@ -194,6 +195,7 @@ footer p {
 
 .addCategory:hover{
   cursor:pointer;
+  font-weight: 500;
 }
 
 #signOut {
