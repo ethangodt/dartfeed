@@ -57,7 +57,7 @@ passport.use(new FacebookStrategy({
 app.use(logger);
 app.use(bodyParser.json());
 
-//get called after login - updates session with user.id 
+//get called after login - updates session with user.id
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
@@ -88,11 +88,11 @@ app.use(function (req, res, next){
   }
 });
 
-//set up router 
+//set up router
 app.use('/', expressRouter);
 router(expressRouter);
 
 app.listen(8000);
 
-module.exports = app; 
+module.exports = app;
 

@@ -95,7 +95,7 @@ module.exports = {
     //    {label: 'category of string2', probability: <decimal number>} ...
     //  ]
     var URL = treeName === 'Public' ? 'https://api.monkeylearn.com/v2/classifiers/cl_hS9wMk9y/classify/?' : 'https://api.monkeylearn.com/v2/classifiers/' + trees[treeName].id + '/classify/?sandbox=1';
-    var tok = treeName === 'Public' ? '388012c35b27f1bef21f91041c6e7327dcb01e1f' : token
+    var tok = treeName === 'Public' ? '388012c35b27f1bef21f91041c6e7327dcb01e1f' : token;
     console.log(URL);
     console.log(JSON.stringify({
         text_list: articleArr
@@ -111,10 +111,10 @@ module.exports = {
     }, function (err, res) {
       // console.log('res: ', res);
       if(err || res.statusCode >= 400) {
-        console.log('error in userTree.classify:', err)
+        console.log('error in userTree.classify:', err);
         console.log('statusCode', res.statusCode);
       } else {
-        var categoryScores = res.body.result
+        var categoryScores = res.body.result;
         callback(categoryScores);
       }
     });
@@ -135,9 +135,9 @@ module.exports = {
       json: {
         samples: dbTrainingArr
       }
-    }, function (err) {
+    }, function (err, res) {
       if(err || res.statusCode >= 400) {
-        console.log('error in userTree.addSamples:', err)
+        console.log('error in userTree.addSamples:', err);
         console.log('statusCode', res.statusCode);
       } else {
         callback();
@@ -153,7 +153,7 @@ module.exports = {
       },
     }, function (err, res) {
       if(err || res.statusCode >= 400) {
-        console.log('error in userTree.startTraining:', err)
+        console.log('error in userTree.startTraining:', err);
         console.log('statusCode', res.statusCode);
       } else {
         callback(res);
@@ -171,10 +171,10 @@ module.exports = {
       url: 'https://api.monkeylearn.com/v2/classifiers/' + trees[treeName].id + '/',
       headers: {
         'Authorization': 'token ' + token
-      },
+      }
     }, function (err, res) {
       if(err || res.statusCode >= 400) {
-        console.log('error in userTree.getUserCategoryIdsForTree:', err)
+        console.log('error in userTree.getUserCategoryIdsForTree:', err);
         console.log('statusCode', res.statusCode);
       } else {
         var userNameToId = _.reduce(JSON.parse(res.body).result.sandbox_categories, function (acc, catObj) {
@@ -216,7 +216,7 @@ var randomReadableChar = function () {
   var code = Math.floor(Math.random()*127);
   code = code < 32 ? 32 : code; //average word length will be around 4 letters;
   return String.fromCharCode(code)
-}
+};
 
 //makes random string of a given length.
 var makeDummyText = function (length) {
@@ -225,4 +225,4 @@ var makeDummyText = function (length) {
     dummyText += randomReadableChar();
   }
   return dummyText;
-}
+};

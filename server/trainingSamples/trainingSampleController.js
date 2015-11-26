@@ -1,18 +1,11 @@
 var mongoose = require('mongoose');
 var TrainingSample = require('./trainingSampleModel');
-var User = require('../users/userModel.js');
 
-var addTrainingSample = function (articleID, username) {
-  // todo may need to change username to userID, or something — it depends on what id is passed: fb or mongo
-  User.find({username: username}).exec() // convert client friendly username to userID hash
-    .then(function (user) {
-      user = user[0];
-      console.log(user._id.valueOf());
-      return TrainingSample.create({
-        article: mongoose.Types.ObjectId(articleID), // building ObjectId from hash
-        userID: user._id.valueOf() // extracting hash string from ObjectId
-      });
-    });
+var addTrainingSample = function (articleID, userFbId) {
+  return TrainingSample.create({
+    article: mongoose.Types.ObjectId(articleID), // building ObjectId from hash
+    userFbId: userFbId
+  });
 };
 
 // this function returns all samples and populates the article property of the doc with the actual article doc's summary

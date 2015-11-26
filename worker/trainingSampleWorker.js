@@ -3,7 +3,7 @@
 
 var db = require('./dbInit');
 var mongoose = require('mongoose');
-var trainingSampleCtrl = require('./trainingSampleController');
+var trainingSampleCtrl = require('../server/trainingSamples/trainingSampleController');
 var monkeyLearn = require('./analysis_module/UserTreeInterface');
 var _ = require('underscore');
 
@@ -18,19 +18,23 @@ trainingSampleCtrl.getAllTrainingSamples()
   // format the rawSamplesByCategory that came directly from db
   .then(function (rawSamplesByCategory) {
     // fetch user ids from monkey learn
-    return monkeyLearn.getUserCategoryIdsForAllTrees()
-      // reformat the sample to include summary and user sub-category id (from monkey learn)
-      .then(function (idsByTree) {
-        _.each(rawSamplesByCategory, function (rawSampleList, category) {
-          rawSamplesByCategory[category] = rawSampleList.map(function (sample) {
-            return {
-              text: sample.summary,
-              categoryId: idsByTree[category][sample.userID]
-            };
-          });
-        });
-        return rawSamplesByCategory; // at this point fully formatted
+    return new Promise(function (resolve, reject) {
+      monkeyLearn.getUserCategoryIdsForAllTrees(function (idsByTree) {
+        resolve(idsByTree);
       });
+    })
+    // reformat the sample to include summary and user sub-category id (from monkey learn)
+    .then(function (idsByTree) {
+      _.each(rawSamplesByCategory, function (rawSampleList, category) {
+        rawSamplesByCategory[category] = rawSampleList.map(function (sample) {
+          return {
+            text: sample.article.summary,
+            category_id: idsByTree[category][sample.userFbId]
+          };
+        });
+      });
+      return rawSamplesByCategory; // at this point fully formatted
+    });
   })
   // make calls to add training to monkey learn by category
   .then(function (samplesByCategory) {
@@ -40,6 +44,7 @@ trainingSampleCtrl.getAllTrainingSamples()
       var count = 0;
 
       var makeDelayedCall = function () {
+        debugger;
         if (count === expectedCalls) {
           resolve();
           return;
@@ -60,6 +65,6 @@ trainingSampleCtrl.getAllTrainingSamples()
   // start training the monkey
   .then(function () {
     monkeyLearn.startTrainingAll(function () {
-      console.log('Samples have been successfully add to Monkey Learn!');
+      console.log('Samples have been successfully added to Monkey Learn!');
     });
   });
