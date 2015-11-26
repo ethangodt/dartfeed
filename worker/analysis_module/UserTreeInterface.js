@@ -5,7 +5,7 @@ var token = require('../../server/config.js').monkeyLearnToken;
 
 //If any of the trees change then the id and root id will have to be updated
 //id can be found when veiwing the GUI at app.monkeylearn.com
-//you can get the root id by logging the result of getUserCategoryIdsForTree of the 
+//you can get the root id by logging the result of getUserCategoryIdsForTree of the
 //tree that's been changed.  Or getUserCategoryIdsForAllTrees if you need to update all of them.
 var trees = {
   'Art & Culture': {
@@ -82,20 +82,20 @@ module.exports = {
   classify: function (treeName, articleArr, callback) {
     //articleArr is an array of strings.  tree name is the key from the trees object.  if it is set to 'Public'
     //the function will use the news categories calssifier.
-    //returns an array of arrays of objects. the nested arrays correspond to the strings in articleArr 
+    //returns an array of arrays of objects. the nested arrays correspond to the strings in articleArr
     //sequentially.  each object has a category label property and a probability property.
     //ex:
     //articleArr = ['string1', 'string2'];
-    //return = [ 
+    //return = [
     //  [
-    //    {label: 'first category of string1', probability: <decimal number>}, 
+    //    {label: 'first category of string1', probability: <decimal number>},
     //    {label: 'second category of string1', probability: <decimal number>} ...
     //  ],
     //  [
     //    {label: 'category of string2', probability: <decimal number>} ...
     //  ]
     var URL = treeName === 'Public' ? 'https://api.monkeylearn.com/v2/classifiers/cl_hS9wMk9y/classify/?' : 'https://api.monkeylearn.com/v2/classifiers/' + trees[treeName].id + '/classify/?sandbox=1';
-    var tok = treeName === 'Public' ? '388012c35b27f1bef21f91041c6e7327dcb01e1f' : token
+    var tok = treeName === 'Public' ? '388012c35b27f1bef21f91041c6e7327dcb01e1f' : token;
     console.log(URL);
     console.log(JSON.stringify({
         text_list: articleArr
@@ -111,10 +111,10 @@ module.exports = {
     }, function (err, res) {
       // console.log('res: ', res);
       if(err || res.statusCode >= 400) {
-        console.log('error in userTree.classify:', err)
+        console.log('error in userTree.classify:', err);
         console.log('statusCode', res.statusCode);
       } else {
-        var categoryScores = res.body.result
+        var categoryScores = res.body.result;
         callback(categoryScores);
       }
     });
@@ -135,9 +135,9 @@ module.exports = {
       json: {
         samples: dbTrainingArr
       }
-    }, function (err) {
+    }, function (err, res) {
       if(err || res.statusCode >= 400) {
-        console.log('error in userTree.addSamples:', err)
+        console.log('error in userTree.addSamples:', err);
         console.log('statusCode', res.statusCode);
       } else {
         callback();
@@ -153,7 +153,7 @@ module.exports = {
       },
     }, function (err, res) {
       if(err || res.statusCode >= 400) {
-        console.log('error in userTree.startTraining:', err)
+        console.log('error in userTree.startTraining:', err);
         console.log('statusCode', res.statusCode);
       } else {
         callback(res);
@@ -171,10 +171,10 @@ module.exports = {
       url: 'https://api.monkeylearn.com/v2/classifiers/' + trees[treeName].id + '/',
       headers: {
         'Authorization': 'token ' + token
-      },
+      }
     }, function (err, res) {
       if(err || res.statusCode >= 400) {
-        console.log('error in userTree.getUserCategoryIdsForTree:', err)
+        console.log('error in userTree.getUserCategoryIdsForTree:', err);
         console.log('statusCode', res.statusCode);
       } else {
         var userNameToId = _.reduce(JSON.parse(res.body).result.sandbox_categories, function (acc, catObj) {
@@ -193,7 +193,7 @@ module.exports = {
         'Authorization': 'token ' + token
       },
       json: {
-        "name": username, 
+        "name": username,
         "parent_id": trees[treeName].rootId
       }
     }, function (err, res) {
@@ -216,7 +216,7 @@ var randomReadableChar = function () {
   var code = Math.floor(Math.random()*127);
   code = code < 32 ? 32 : code; //average word length will be around 4 letters;
   return String.fromCharCode(code)
-}
+};
 
 //makes random string of a given length.
 var makeDummyText = function (length) {
@@ -225,4 +225,4 @@ var makeDummyText = function (length) {
     dummyText += randomReadableChar();
   }
   return dummyText;
-}
+};

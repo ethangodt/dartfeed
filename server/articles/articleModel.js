@@ -2,17 +2,17 @@ var mongoose = require('mongoose');
 
 
 var ArticleSchema = new mongoose.Schema({
-  title : String,
+  title: String,
   linkURL: String,
   summary: String,
   source: String,
   imgURL: String,
-  date: Date, 
+  date: Date,
   categories: [],
-  category:String,
-  visitsCount : Number,
-  metadata : String,
-  userLikes:mongoose.Schema.Types.Mixed
+  category: String,
+  visitsCount: Number,
+  metadata: String,
+  userLikes: mongoose.Schema.Types.Mixed
 });
 
 ArticleSchema.pre('save', function (next){

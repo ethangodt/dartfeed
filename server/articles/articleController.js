@@ -2,7 +2,7 @@ var Article = require('./articleModel');
 var Category = require('../categories/categoryModel');
 var User = require('../users/userModel');
 var Promise = require('bluebird');
-Promise.promisifyAll(require('mongoose'));
+Promise.promisifyAll(require('mongoose')); // todo this needs to be fixed
 
 
 
