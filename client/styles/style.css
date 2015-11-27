@@ -152,8 +152,8 @@ footer p {
 #sidebar {
     position:fixed;
     top:0; bottom:0; left:0;
-    width:150px;
-    background-color:rgba(0,0,0, 0.3);
+    width: 240px;
+    background-color:rgba(0,0,0,0.3);
 }
 
 .sidebarText {
@@ -204,8 +204,8 @@ footer p {
 }
 
 #articlesContainer {
-  position:absolute;
-  left:150px;
+  position: absolute;
+  margin-left: 240px;
 }
 
 .article {
