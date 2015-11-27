@@ -2,33 +2,47 @@ angular.module('dartnews.feed', [])
 .controller('FeedController', function ($scope, $window, $location, Feed) {
   $scope.errSrc = "http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2011/11/data-farm-537x399.jpg";
 
+  var colorData = {
+    '50': '#ffffff',
+    '55': '#ffe5e5',
+    '60': '#ffcccc',
+    '65': '#ffb2b2',
+    '70': '#ff9999',
+    '75': '#ff7f7f',
+    '80': '#ff6666',
+    '85': '#ff4c4c',
+    '90': '#ff3232',
+    '95': '#ff1919',
+    '100': '#ff0000'
+  };
 
-  var getData = function (){
-    Feed.getUserProfile()
-      .then(function (user){
-        //$scope.user = user; 
-      })
-    Feed.getCategories()
-      .then(function (categories){
-        //$scope.categories = categories; 
-      })
-    Feed.getArticlesForUser()
-      .then(function (articles){
-        //$scope.articles = articles;
-      });
+  //translates a score from 0.5-1.0 to a shade of red
+  var pickColor = function(score){
+    score = score || 0.5;
+    var fixedScore = Math.round(score * 100);
+    //console.log(fixedScore + ' is fixedScore')
+    var ctr = 50;
+    while(ctr <= 105){
+      console.log('comparing ' + ctr + ' to ' + fixedScore);
+      if(ctr > fixedScore){
+        ctr -= 5;
+        console.log('argument is = ' + String(ctr) + ' AND RETURN IS ' + colorData[String(ctr)]);
+        return colorData[String(ctr)];
+      }
+      ctr += 5;
+    }
   };
 
   var updateData = function (appData){
     $scope.allCategories = appData.allCats;
     $scope.userCategories = appData.userCats;
     $scope.articles = appData.articles;
-    /*for(var i = 0; i < $scope.articles.length; i++){
-      var normalizedScore = $scope.articles[i].score
-      $scope.redShade[i] = {
-        color: 'rgb(' + $scope.articles[i].score
+    for(var i = 0; i < $scope.articles.length; i++){
+      $scope.articles[i].redShade = {
+        'background-color': pickColor($scope.articles[i].score)
       }
-    }*/
-  }
+    }
+  };
 
   $scope.getArticlesForUser = function (){
     Feed.getArticlesForUser()
@@ -69,6 +83,17 @@ angular.module('dartnews.feed', [])
     return true;
   };
 
-  $scope.getArticlesForUser();
+  //$scope.getArticlesForUser();
+
+  $scope.articles = testData;
+  $scope.allCategories = testAllCategories;
+  $scope.userCategories = testUser.categories;
+  $scope.user = testUser;
+
+  for(var i = 0; i < $scope.articles.length; i++){
+    $scope.articles[i].redShade = {
+      'background-color': pickColor($scope.articles[i].score)
+    }
+  }
 
 });
