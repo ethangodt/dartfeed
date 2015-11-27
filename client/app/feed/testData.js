@@ -122,18 +122,18 @@ var testData = [
     summary: 'When I stopped hearing the voices in my head',
     categories: [],
     imgURL: 'https://i.guim.co.uk/img/media/ec307e5cfb08fbc4ffed9ca31fddbd9fa9e98047/0_125_5100_3060/master/5100.jpg?w=300&q=85&auto=format&sharp=10&s=61b73abcefde10efa4c104dc0d0b24e5' }
-  ];  
+  ];
 
-var testUser = { 
-    categories: ['Tech','Government','General','Audio'],
-    history: [],
-    following: [],
-    followers: [],
-    __v: 0,
-    fbId: 5555,
-    fbToken: null,
-    username: 'Mark Marmont',
-    _id: '564d4440fa317f934fd20a33' 
-}
+var testUser = {
+  categories: ['Tech','Government','General','Audio'],
+  history: [],
+  following: [],
+  followers: [],
+  __v: 0,
+  fbId: 5555,
+  fbToken: null,
+  username: 'Mark Marmont',
+  _id: '564d4440fa317f934fd20a33'
+};
 
 var testAllCategories = ['Tech', 'Government', 'General', 'Audio', 'Sports', 'Fencing'];
