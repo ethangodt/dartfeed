@@ -6,7 +6,7 @@ var testData = [
     summary: 'Siamese thai tabby leopard. Ragdoll. American bobtail jaguar. Ragdoll donskoy for sphynx so lynx. Abyssinian balinese . Kitty turkish angora yet lynx siamese singapura birman. Birman bengal or ocelot. Jaguar siamese cougar. Puma manx or leopard. Himalayan puma bombay grimalkin grimalkin yet mouser for lynx. Malkin ocelot persian cougar.',
     categories: ['Tech'],
     score: 0.5,
-    imgURL: '//img2.blogblog.com/img/icon18_edit_allbkg.gif' },
+    imgURL: 'http://images.natureworldnews.com/data/images/full/2811/jellyfish.jpg' },
   { source: 'Hacker News',
     title: 'Pandora Buys \'Key\' Rdio Assets for $75M in Cash, Rdio Files Ch.11 to Shut Down',
     linkURL: 'http://techcrunch.com/2015/11/16/confirmed-pandora-buys-key-rdio-assets-for-75m-in-cash-rdio-files-ch-11-to-shut-down/',

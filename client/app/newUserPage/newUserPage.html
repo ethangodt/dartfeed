@@ -81,21 +81,27 @@
   <!--</div>-->
 
 </div>
+
+<!-- how is this working without being nested in a controller? -->
+
+
+
 <div id="articlesContainer">
-  <div>
-    <div>
-      <div class="article" ng-style="obj.redShade" ng-repeat="obj in articles">
-        <div class="likeContainer">
-          <div ng-show="!obj.userLikes" class="likeButton" ng-click="obj.userLikes = true; likeArticle($index)">Like?</div>
-          <img src="./../../assets/images/Liked.png" ng-show="obj.userLikes" class="likeButton likeImage"/>
-        </div>
-        <a href="{{obj.linkURL}}">
-          <img class="articleImg" src="{{obj.imgURL}}" err-SRC="http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2011/11/data-farm-537x399.jpg">
-        </a>
-        <div class="articleTitle">{{obj.title}}</div>
-        <div class="articleSummary">{{obj.summary}}</div>
-      </div>
+  <!--todo include ng-style="obj.redShade" below-->
+  <div class="article" ng-repeat="obj in articles">
+    <!--<div class="likeContainer">-->
+      <!--<div ng-show="!obj.userLikes" class="likeButton" ng-click="obj.userLikes = true; likeArticle($index)">Like?</div>-->
+      <!--<img src="./../../assets/images/Liked.png" ng-show="obj.userLikes" class="likeButton likeImage"/>-->
+    <!--</div>-->
+    <div class="scoreStrip"></div>
+    <figure>
+      <a href="{{obj.linkURL}}">
+        <!--<img class="articleImg" src="{{obj.imgURL}}" err-SRC="http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2011/11/data-farm-537x399.jpg">-->
+      </a>
+    </figure>
+    <div class="articleDetails">
+      <div class="articleTitle">{{obj.title}}</div>
+      <div class="articleSummary">{{obj.summary}}</div>
     </div>
   </div>
 </div>
-
