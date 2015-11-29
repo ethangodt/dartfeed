@@ -88,22 +88,34 @@ module.exports = {
     //articleArr = ['string1', 'string2'];
     //return = [
     //  [
-    //    {label: 'first category of string1', probability: <decimal number>},
-    //    {label: 'second category of string1', probability: <decimal number>} ...
+    //    {label: 'first category of string1', probability: <decimal number>}, 
+    //    {label: 'child category of first category of string1', probability: <decimal number>} ...
     //  ],
     //  [
     //    {label: 'category of string2', probability: <decimal number>} ...
     //  ]
+    //for multi-label trees (user trees):
+    //return = [
+    //  [
+    //    [
+    //      {label: 'first category of string1', probability: <decimal number>}
+    //      //these can technically have child categories as in single label, but our trees will not.
+    //    ],
+    //    [
+    //      {label: 'second category of string1', probability: <decimal number>}
+    //    ]
+    //  ],
+    //  [
+    //    [
+    //      {label: 'first category of string2', probability: <decimal number>}
+    //    ]
+    //  ]
+    //]
     var URL = treeName === 'Public' ? 'https://api.monkeylearn.com/v2/classifiers/cl_hS9wMk9y/classify/?' : 'https://api.monkeylearn.com/v2/classifiers/' + trees[treeName].id + '/classify/?sandbox=1';
-    var tok = treeName === 'Public' ? '388012c35b27f1bef21f91041c6e7327dcb01e1f' : token;
-    // console.log(URL);
-    // console.log(JSON.stringify({
-    //     text_list: articleArr
-    //   }))
     request.post({
       url: URL,
       headers: {
-        'Authorization': 'token ' + tok
+        'Authorization': 'token ' + token
       },
       json: {
         text_list: articleArr
