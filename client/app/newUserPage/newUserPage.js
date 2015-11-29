@@ -20,13 +20,10 @@ angular.module('dartnews.feed', [])
   var pickColor = function(score){
     score = score || 0.5;
     var fixedScore = Math.round(score * 100);
-    //console.log(fixedScore + ' is fixedScore')
     var ctr = 50;
     while(ctr <= 105){
-      console.log('comparing ' + ctr + ' to ' + fixedScore);
       if(ctr > fixedScore){
         ctr -= 5;
-        console.log('argument is = ' + String(ctr) + ' AND RETURN IS ' + colorData[String(ctr)]);
         return colorData[String(ctr)];
       }
       ctr += 5;

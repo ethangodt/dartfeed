@@ -176,13 +176,23 @@ footer p {
 /*--- sidebar styles begin ---*/
 #sidebar {
 	box-sizing: border-box;
-    position: fixed;
+	position: fixed;
 	padding: 60px 30px 30px 30px;
 	height: 100%;
-    width: 240px;
-    background-image: linear-gradient(rgba(254, 186, 39, .22), black 50%);
-	background-color: black;
+	width: 240px;
+	background: linear-gradient(#322604, black 50%);
 	text-align: center;
+	/*z-index: -2;*/
+}
+
+#sidebar > #sidebarColorShading {
+	position: absolute;
+	height: 320px;
+	top: 0;
+	right: 0;
+	left: 0;
+	background: url('images/sidebarColorShading.png') no-repeat;
+	z-index: -1;
 }
 
 #sidebar h3 {
@@ -320,11 +330,11 @@ li:hover .plus {
 	overflow: hidden;
 	float: left;
 	margin: 0;
-	transition: opacity .2s;
+	transition: opacity .35s;
 }
 
 .article figure:hover {
-	opacity: .8;
+	opacity: .7;
 }
 
 .article .articleDetails {
@@ -354,7 +364,7 @@ li:hover .plus {
 }
 
 .articleTitle a {
-	transition: color .15s ease;
+	transition: color .35s ease;
 }
 
 .articleTitle a:hover {
@@ -383,7 +393,7 @@ li:hover .plus {
 .likeButton .unclickedTarget {
 	fill: grey;
 	width: 28px;
-	transition: fill .2s;
+	transition: fill .35s;
 }
 
 .likeButton .unclickedTarget:hover {
