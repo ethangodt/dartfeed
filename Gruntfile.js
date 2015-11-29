@@ -81,6 +81,11 @@ module.exports = function(grunt) {
           'public/dist/**/*.js'
         ]
       }
+    },
+    shell: {
+      mongodb: {
+        command: 'mongod -dbpath ./data/db --fork --logpath ./mongod.log',
+      }
     }
   });
 
@@ -88,7 +93,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-shell-spawn');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -121,7 +126,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('deploy', ['build', 'upload']);
+  grunt.registerTask('deploy', ['build', 'shell', 'upload']);
 
 
 };

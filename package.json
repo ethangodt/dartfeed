@@ -54,6 +54,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-nodemon": "^0.4.0",
     "grunt-shell": "^1.1.2",
+    "grunt-shell-spawn": "^0.3.10",
     "jshint": "^2.8.0",
     "node-inspector": "^0.12.3"
   }
