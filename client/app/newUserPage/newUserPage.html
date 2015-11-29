@@ -62,30 +62,9 @@
       <p>sign out</p>
     </div>
   </div>
-
-  <!--<div class="sidebarText"> {{user.username}}-->
-    <!--<div id="addCategoryHeader">Add Category</div>-->
-    <!--<ul class="categoriesToAdd">-->
-      <!--<li ng-repeat="category in allCategories | filter: categoryFilter">{{ category }}-->
-        <!--<span class="addCategory" ng-click="addCategory(category)">(+)</span>-->
-      <!--</li>-->
-    <!--</ul>-->
-    <!--<div id="categoriesListHeader">Categories</div>-->
-    <!--<ul class="categoriesList">-->
-      <!--<li>Show All</li>-->
-      <!--<li ng-repeat="category in userCategories track by $index"> {{ category.name }}-->
-        <!--<span class="delete" ng-click="removeCategory($index)">(-)</span>-->
-      <!--</li>-->
-    <!--</ul>-->
-    <!--<a href="/api/auth/signout" id="signOut">Sign Out</a>-->
-  <!--</div>-->
-
 </div>
 
 <!-- how is this working without being nested in a controller? -->
-
-
-
 <div id="articlesContainer">
   <!--todo include ng-style="obj.redShade" below-->
   <div class="article" ng-repeat="obj in articles">
@@ -93,13 +72,6 @@
     <a href="{{ obj.linkURL }}" target="_blank">
       <figure ng-style="{'background': 'url({{ obj.imgURL }})', 'background-size': 'cover'}"></figure>
     </a>
-    <div class="articleDetails">
-      <span class="backgroundImage" ng-style="{'background': 'url({{ obj.imgURL }})', 'background-size': 'cover'}"></span>
-      <div class="articleTitle">
-        <a href="{{ obj.linkURL }}" target="_blank">{{obj.title}}</a>
-      </div>
-      <div class="articleSummary">{{obj.summary}}</div>
-    </div>
     <div class="likeButton" ng-click="obj.userLikes = true; likeArticle($index);">
       <div ng-show="!obj.userLikes">
         <?xml version="1.0" encoding="utf-8"?>
@@ -127,9 +99,12 @@
         </svg>
       </div>
     </div>
+    <div class="articleDetails">
+      <span class="backgroundImage" ng-style="{'background': 'url({{ obj.imgURL }})', 'background-size': 'cover'}"></span>
+      <div class="articleTitle">
+        <a href="{{ obj.linkURL }}" target="_blank">{{obj.title}}</a>
+      </div>
+      <div class="articleSummary">{{ obj.summary | thirtyWordsMax }}</div>
+    </div>
   </div>
 </div>
-
-<!-- 30 35 -->
-
-<!-- 13 9 -->
