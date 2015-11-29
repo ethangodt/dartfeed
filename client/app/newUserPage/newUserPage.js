@@ -34,6 +34,7 @@ angular.module('dartnews.feed', [])
   };
 
   var updateData = function (appData){
+    console.dir(appData);
     $scope.allCategories = appData.allCats;
     $scope.userCategories = appData.userCats;
     $scope.articles = appData.articles;
@@ -52,7 +53,7 @@ angular.module('dartnews.feed', [])
   };
 
   $scope.removeCategory = function (categoryIndex){
-    Feed.updateUserCategories($scope.userCategories[categoryIndex], 'DELETE')
+    Feed.updateUserCategories($scope.userCategories[categoryIndex], 'POST')
     .then(function(response){
       updateData(response.data);
     });

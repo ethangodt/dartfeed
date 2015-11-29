@@ -28,5 +28,5 @@ module.exports = function (router) {
 
   router.get('/api/categories', categoryController.getCategories);
   router.put('/api/categories', categoryController.updateUserCategories);
-  router.delete('/api/categories', categoryController.updateUserCategories);
+  router.post('/api/categories', categoryController.updateUserCategories);
 }
