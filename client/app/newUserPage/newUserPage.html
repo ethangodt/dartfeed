@@ -65,7 +65,7 @@
 </div>
 
 <!-- how is this working without being nested in a controller? -->
-<div id="articlesContainer">
+<div id="articlesContainer" data-100-start="opacity: .3">
   <!--todo include ng-style="obj.redShade" below-->
   <div class="article" ng-repeat="obj in articles">
     <div class="scoreStrip"></div>
@@ -100,7 +100,7 @@
       </div>
     </div>
     <div class="articleDetails">
-      <span class="backgroundImage" ng-style="{'background': 'url({{ obj.imgURL }})', 'background-size': 'cover'}"></span>
+      <span class="backgroundImage" ng-style="{'background': 'url({{ obj.imgURL }}) center', 'background-size': 'cover'}"></span>
       <div class="articleTitle">
         <a href="{{ obj.linkURL }}" target="_blank">{{obj.title}}</a>
       </div>
@@ -108,3 +108,7 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  console.log('hey');
+</script>
