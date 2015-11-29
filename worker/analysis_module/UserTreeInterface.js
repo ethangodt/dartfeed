@@ -8,7 +8,7 @@ var token = require('../../server/config.js').monkeyLearnToken;
 //you can get the root id by logging the result of getUserCategoryIdsForTree of the
 //tree that's been changed.  Or getUserCategoryIdsForAllTrees if you need to update all of them.
 var trees = {
-  'Art & Culture': {
+  'Arts & Culture': {
     id: 'cl_XZPRupgQ',
     rootId: 561673
   },
@@ -96,14 +96,14 @@ module.exports = {
     //  ]
     var URL = treeName === 'Public' ? 'https://api.monkeylearn.com/v2/classifiers/cl_hS9wMk9y/classify/?' : 'https://api.monkeylearn.com/v2/classifiers/' + trees[treeName].id + '/classify/?sandbox=1';
     var tok = treeName === 'Public' ? '388012c35b27f1bef21f91041c6e7327dcb01e1f' : token;
-    console.log(URL);
-    console.log(JSON.stringify({
-        text_list: articleArr
-      }))
+    // console.log(URL);
+    // console.log(JSON.stringify({
+    //     text_list: articleArr
+    //   }))
     request.post({
       url: URL,
       headers: {
-        'Authorization': 'token ' + token
+        'Authorization': 'token ' + tok
       },
       json: {
         text_list: articleArr

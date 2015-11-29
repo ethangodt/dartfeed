@@ -3,8 +3,15 @@
 
 // establish connection
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/dartfeed');
+
+module.exports.connect = function() {
+  mongoose.connect('mongodb://localhost/dartfeed');
+};
+
+module.exports.disconnect = function(cb) {
+  mongoose.disconnect(cb);
+};
 
 // establish with mongoose models for collection in the db
-var articleInit = require('../server/articles/articleModel');
-var userInit = require('../server/users/userModel');
+//var articleInit = require('../server/articles/articleModel');
+//var userInit = require('../server/users/userModel');
