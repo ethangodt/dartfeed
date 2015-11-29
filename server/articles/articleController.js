@@ -35,19 +35,36 @@ var getArticles = function (req, res, next) {
     });
 };
 
-var insertArticles = function (req, res, next) {
-  var articleData = req.body;
-  articleData.forEach(function (articleData) {
-    articleData.date = new Date(articleData.date);
-    articleData.visitsCount = 0;
-    articleData.metadata = 0; //for potential features later
-    var catPromises = [];
-    var catData = [];
-    Article.create(articleData);
-    res.send();
-
+var writeArticles = function (articles) {
+  var writePromises = [];
+  articles.forEach(function (articleData) {
+    articleData.visitsCount = articleData.visitsCount || 0;
+    articleData.metadata = articleData.metadata || 0;
+    writePromises.push(Article.create(articleData));
   });
+
+  return Promise.all(writePromises);
 };
+
+var newArticles = function (rssArticles){
+  var newArticles = [];
+
+  return Article.find({}).sort({date:-1}).limit(1).exec().then(function(newestArticle){
+    if(newestArticle.length === 0){
+      return rssArticles;
+    }
+    rssArticles.forEach(function(article){
+      if(laterDate(article.date, newestArticle[0].date)){
+        newArticles.push(article);
+      }
+    });
+    return newArticles;
+  })
+};
+
+var laterDate = function(date1, date2){
+  return Date.parse(date1) > Date.parse(date2);
+}
 
 var userLike = function (req, res, next) {
   TrainingSample.addTrainingSample( req.body.articleID,req.user.id);
@@ -67,6 +84,7 @@ var userLike = function (req, res, next) {
 
 module.exports = {
   getArticles: getArticles,
-  insertArticles: insertArticles,
+  writeArticles: writeArticles,
+  newArticles: newArticles,
   userLike: userLike
 }

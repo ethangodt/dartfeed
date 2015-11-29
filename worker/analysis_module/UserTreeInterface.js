@@ -125,9 +125,10 @@ module.exports = {
       if(err || res.statusCode >= 400) {
         console.log('error in userTree.classify:', err);
         console.log('statusCode', res.statusCode);
+        callback(err, null);
       } else {
         var categoryScores = res.body.result;
-        callback(categoryScores);
+        callback(null, categoryScores);
       }
     });
   },

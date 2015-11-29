@@ -1,23 +1,30 @@
 var rss = require('./../rss_modules/rss.js');
 var db = require('./../dbInit.js');
 var monkeyLearn = require('./UserTreeInterface.js');
-var dbServices = require('./../dbServices');
+var artCtrl = require('./../../server/articles/articleController.js');
 
 db.connect();
 
 rss.then(function(formattedArticles){
-  console.log('articles acquired');
 
   //identify which articles are newer than the newest one currently in the DB
-  dbServices.newArticles(formattedArticles).then(function(newArticles){
-    console.log('identification of new articles completed');
+  artCtrl.newArticles(formattedArticles).then(function(newArticles){
+    if(newArticles.length === 0){
+      db.disconnect();
+      return;
+    }
+
     var summaries = newArticles.map(function(articleData){
       return articleData.summary;
     });
     
     //add categories to the articles using monkey learn
-    monkeyLearn.classify('Public', summaries, function(results){
-      console.log('articles classified');
+    monkeyLearn.classify('Public', summaries, function(err, results){
+      if(err){
+        console.log(err);
+        db.disconnect();
+        return;
+      }
       var summariesByCategory = {};
       newArticles.forEach(function(article, index){
         article.userScores = {};
@@ -33,20 +40,6 @@ rss.then(function(formattedArticles){
         }
       });
 
-      //add user scores to articles
-
-      // var categoriesComplete = 0;
-      // for(var category in summariesByCategory){
-      //   monkeyLearn.classify(category, summariesByCategory[category].summaries, assignScores(category, newArticles, summariesByCategory, function(articles){
-      //     categoriesComplete++;
-      //     console.log(categoriesComplete + ' categories complete, ' + Object.keys(summariesByCategory).length + ' in total');
-      //     if(categoriesComplete === Object.keys(summariesByCategory).length){
-      //       dbServices.writeArticles(newArticles).then(function(){
-      //         db.disconnect();
-      //       });
-      //     }
-      //   }));
-      // }
       getUserScores(summariesByCategory, newArticles);
     });
   });
@@ -60,7 +53,12 @@ var assignScores = function(category, newArticles, summariesByCategory, cb){
   var articles = newArticles;
   var summariesByCat = summariesByCategory;   
 
-  return function(scores){
+  return function(err, scores){
+    if(err){
+      console.log(err);
+      db.disconnect();
+      return;
+    }
     for(var artIndex = 0; artIndex < scores.length; artIndex++){
       for(var userIndex = 0; userIndex < scores[artIndex].length; userIndex++){
         articles[summariesByCat[cat].indices[artIndex]].userScores[scores[artIndex][userIndex][0].label] = scores[artIndex][userIndex][0].probability;
@@ -70,18 +68,21 @@ var assignScores = function(category, newArticles, summariesByCategory, cb){
   }
 }
 
+//getUserScores queries the monkeyLearn API for user scores.  One query is required for each category
+//inluded in the new articles found from the RSS feeds
 var getUserScores = function(summariesByCategory, newArticles){
   var categoriesComplete = 0;
   var categories = Object.keys(summariesByCategory);
   
+  //MonkeyLearn queries must be throttled to avoid overloading the API
   var throttleUserScores = function(catIndex){
     setTimeout(function(){
       var category = categories[catIndex];
       monkeyLearn.classify(category, summariesByCategory[category].summaries, assignScores(category, newArticles, summariesByCategory, function(articles){
         categoriesComplete++;
-        console.log(categoriesComplete + ' categories complete, ' + categories.length + ' in total');
+        //once all the articles have been scored by monkeyLearn, write them all to the DB
         if(categoriesComplete === categories.length){
-          dbServices.writeArticles(articles).then(function(){
+          artCtrl.writeArticles(articles).then(function(){
             db.disconnect();
           });
         }
