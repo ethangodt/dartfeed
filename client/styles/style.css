@@ -294,6 +294,7 @@ li:hover .plus {
 	position: relative;
 	margin-left: 240px;
 	padding: 50px;
+	min-width: 800px;
 }
 
 .article {
@@ -301,6 +302,7 @@ li:hover .plus {
 	margin-bottom: 15px;
 	overflow: auto;
 	height: 190px;
+	overflow-y: hidden;
 }
 
 .article .scoreStrip {
@@ -374,12 +376,12 @@ li:hover .plus {
 	float: right;
 	height: 30px;
 	width: 35px;
-	margin: -177px 9px 0 0;
+	margin: 12px 9px 0 0;
 }
 
 .likeButton .unclickedTarget {
 	fill: grey;
-	width: 29px;
+	width: 28px;
 }
 
 .likeButton .clickedTarget {

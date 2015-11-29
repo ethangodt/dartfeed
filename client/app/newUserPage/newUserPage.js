@@ -90,10 +90,21 @@ angular.module('dartnews.feed', [])
   $scope.userCategories = testUser.categories;
   $scope.user = testUser;
 
-  for(var i = 0; i < $scope.articles.length; i++){
+  for (var i = 0; i < $scope.articles.length; i++){
     $scope.articles[i].redShade = {
       'background-color': pickColor($scope.articles[i].score)
     }
   }
-
+})
+.filter('thirtyWordsMax', function () {
+  return function (articleSummary) {
+    var shortendSummary = articleSummary.split(' ').slice(0, 29).join(' ');
+    var lastChar = shortendSummary[shortendSummary.length - 1];
+    if (/[\w]/ig.test(lastChar)) {
+      return shortendSummary + '...';
+    } else {
+      return shortendSummary;
+    }
+  };
 });
+
