@@ -12,11 +12,7 @@ module.exports = function(grunt) {
             "client/lib/underscore/underscore.js",
             "client/lib/angular/angular.js",
             "client/lib/angular-route/angular-route.js",
-            "client/app/services/services.js",
-            "client/app/feed/testData.js",
-            "client/app/user/user.js",
-            "client/app/newUserPage/newUserPage.js",
-            "client/app/app.js"
+            "client/app/**/*.js",
           ],
           dest: 'client/dist/script.js'
       }

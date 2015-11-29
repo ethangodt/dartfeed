@@ -1,24 +1,22 @@
 var dart = angular.module('dartnews', [
   'dartnews.services',
   'dartnews.feed',
-  'dartnews.user',
+  'dartnews.landing',
   'ngRoute'
 ])
 
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider
-    .when('/user', {
-      templateUrl: '/app/user/user.html',
-      controller: 'UserController'
+    .when('/landingPage', {
+      templateUrl: '/app/feed/landingPage.html',
+      controller: 'landingController'
     })
     .when('/feed', {
       templateUrl: '/app/newUserPage/newUserPage.html',
       controller: 'FeedController'
     })
     .otherwise({
-      redirectTo: '/feed',
-      templateUrl: '/app/newUserPage/newUserPage.html',
-      controller: 'FeedController'
+      redirectTo: '/landingPage'
     });
 });
 

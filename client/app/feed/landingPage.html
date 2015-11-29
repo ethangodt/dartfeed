@@ -1,4 +1,4 @@
-<div ng-controller="FeedController" class="container landingHeader" ng-init="getArticlesForUser()">
+<div ng-controller="landingController" class="container landingHeader" ng-init="getArticlesForUser()">
     <div class="row">
 
         <div class="col-md-3 col-md-offset-1">
@@ -13,9 +13,5 @@
                 </p>
             </section>
         </div>
-    </div>
-    <div class="row">
-        {{articles}}
-        <button ng-click="getArticlesForUser()"></button>
     </div>
 </div>
