@@ -61,10 +61,6 @@ module.exports = function(grunt) {
       }
     },
 
-    shell: {
-      prodServer: {
-      }
-    },
     jshint: {
       files: [
         "client/app/services/services.js",
