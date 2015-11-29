@@ -10,7 +10,6 @@ module.exports = {
   },
 
   updateUserCategories: function(req, res, next){
-    //use req.user to save back the updates
     User.findOne({_id: req.user.id}, function (err, user){
       if(err) {
         res.send(err);

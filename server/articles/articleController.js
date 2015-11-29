@@ -1,33 +1,34 @@
 var Article = require('./articleModel');
 var Category = require('../categories/categoryModel');
 var User = require('../users/userModel');
+var TrainingSample = require('../trainingSamples/TrainingSampleController');
 var Promise = require('bluebird');
-Promise.promisifyAll(require('mongoose')); // todo this needs to be fixed
 
 var getArticles = function (req, res, next) {
   User.findOne({_id: req.user.id})
-    .exec(function (err, user){
-      var categories = user.categories.filter(function (item){
+    .exec(function (err, user) {
+
+      var categories = user.categories.filter(function (item) {
         return !!item;
       });
       var resBody = {};
       resBody.articles = [];
       Article.find()
-        .in('categories',categories)
+        .in('categories', categories)
         .then(function (articles) {
           articles.forEach(function (art) {
             art.userLikes = !!art.userLikes && !!art.userLikes[req.user.id];
           });
-          console.log('articles', articles)
+          //console.log('articles', articles)
           resBody.articles = articles;
           resBody.userCats = categories;
-          console.log('resBody', resBody)
+          //console.log('resBody', resBody)
           Category.find({})
-            .then(function (cats){
-              resBody.allCats = cats.map(function(cat){
+            .then(function (cats) {
+              resBody.allCats = cats.map(function (cat) {
                 return cat.name;
               });
-              console.log('resBody', resBody)
+              //console.log('resBody', resBody)
               res.json(resBody);
             });
         });
@@ -49,21 +50,23 @@ var insertArticles = function (req, res, next) {
 };
 
 var userLike = function (req, res, next) {
-    Article.findOne({_id:req.body.articleID})
-      .exec(function (err, art){
-        if(err){
-          res.send(err);
-        } else {
-          art.userLikes = art.userLikes || {};
-          art.userLikes[req.user.id] = true;
-          art.save();
-          res.send();
-        }
-      })
+  TrainingSample.addTrainingSample( req.body.articleID,req.user.id);
+
+  Article.findOne({_id: req.body.articleID})
+    .exec(function (err, art) {
+      if (err) {
+        res.send(err);
+      } else {
+        art.userLikes = art.userLikes || {};
+        art.userLikes[req.user.id] = true;
+        art.save();
+        res.send();
+      }
+    })
 };
 
 module.exports = {
-  getArticles:getArticles,
-  insertArticles:insertArticles,
+  getArticles: getArticles,
+  insertArticles: insertArticles,
   userLike: userLike
 }
