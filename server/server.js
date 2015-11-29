@@ -92,7 +92,7 @@ app.use(function (req, res, next){
 app.use('/', expressRouter);
 router(expressRouter);
 
-if(process.env === 'production') {
+if(process.env.NODE_ENV === 'production') {
   var port = 80;
 } else {
   port = 8000;
