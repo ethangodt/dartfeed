@@ -26,9 +26,11 @@ module.exports = {
         Article.getArticles(req, res, next);
       } else if (req.body.type === "POST"){
         user.categories.splice(user.categories.indexOf(req.body.category),1);
-        user.save();
-        Article.getArticles(req,res,next);
-
+        user.save()
+          .then(function () {
+            debugger;
+            Article.getArticles(req,res,next);
+          });
       }
     });
   }

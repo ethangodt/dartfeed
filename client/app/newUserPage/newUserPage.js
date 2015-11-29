@@ -41,7 +41,7 @@ angular.module('dartnews.feed', [])
     }
   };
 
-  var updateData = function (appData){
+  $scope.updateData = function (appData){
     $scope.allCategories = appData.allCats;
     $scope.userCategories = appData.userCats;
     $scope.articles = appData.articles;
@@ -55,22 +55,21 @@ angular.module('dartnews.feed', [])
   $scope.getArticlesForUser = function (){
     Feed.getArticlesForUser()
       .then(function (response){
-        debugger;
-        updateData(response.data);
+        $scope.updateData(response.data);
       });
   };
 
   $scope.removeCategory = function (categoryIndex){
-    Feed.updateUserCategories($scope.userCategories[categoryIndex], 'DELETE')
+    Feed.updateUserCategories($scope.userCategories[categoryIndex], 'POST')
     .then(function(response){
-      updateData(response.data);
+      $scope.updateData(response.data);
     });
   };
 
   $scope.addCategory = function (category){
     Feed.updateUserCategories(category, 'PUT')
     .then(function(response){
-      updateData(response.data);
+        $scope.updateData(response.data);
     });
   };
 

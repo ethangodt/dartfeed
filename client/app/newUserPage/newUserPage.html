@@ -67,11 +67,10 @@
 
 <!-- how is this working without being nested in a controller? -->
 <div id="articlesContainer" data-100-start="opacity: .3">
-  <!--todo include ng-style="obj.redShade" below-->
   <div class="article" ng-repeat="obj in articles">
     <div class="scoreStrip" ng-style="obj.yellowShade"></div>
     <a href="{{ obj.linkURL }}" target="_blank">
-      <figure ng-style="{'background': 'url({{ obj.imgURL }})', 'background-size': 'cover'}"></figure>
+      <figure ng-style="{'background': 'url({{ obj.imgURL }})', 'background-size': 'cover', 'background-position': 'center center'}"></figure>
     </a>
     <div class="likeButton" ng-click="obj.userLikes = true; likeArticle($index);">
       <div ng-show="!obj.userLikes">

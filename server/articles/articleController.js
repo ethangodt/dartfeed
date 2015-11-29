@@ -7,14 +7,13 @@ var Promise = require('bluebird');
 var getArticles = function (req, res, next) {
   User.findOne({_id: req.user.id})
     .exec(function (err, user) {
-
       var categories = user.categories.filter(function (item) {
         return !!item;
       });
       var resBody = {};
       resBody.articles = [];
       Article.find()
-        .in('categories', categories)
+        .in('category', categories)
         .then(function (articles) {
           articles.forEach(function (art) {
             art.userLikes = !!art.userLikes && !!art.userLikes[req.user.id];
