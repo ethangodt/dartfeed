@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var TrainingSample = require('./trainingSampleModel');
 
 var addTrainingSample = function (articleID, userFbId) {
+  // todo change this to use the mongo id
   return TrainingSample.create({
     article: mongoose.Types.ObjectId(articleID), // building ObjectId from hash
     userFbId: userFbId

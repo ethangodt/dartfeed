@@ -1,15 +1,13 @@
 var dart = angular.module('dartnews', [
   'dartnews.services',
   'dartnews.feed',
-  'dartnews.landing',
   'ngRoute'
 ])
 
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider
     .when('/landingPage', {
-      templateUrl: '/app/feed/landingPage.html',
-      controller: 'landingController'
+      templateUrl: '/app/feed/landingPage.html'
     })
     .when('/feed', {
       templateUrl: '/app/newUserPage/newUserPage.html',
@@ -28,12 +26,12 @@ dart.directive('errSrc', function() {
           attrs.$set('src', attrs.errSrc);
         }
       });
-      
+
       attrs.$observe('ngSrc', function(value) {
         if (!value && attrs.errSrc) {
           attrs.$set('src', attrs.errSrc);
         }
       });
     }
-  }
+  };
 });

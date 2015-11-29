@@ -3,9 +3,10 @@ var User = require('../users/userModel.js');
 
 module.exports = function (req, res, next){
   var defaultUserObj = {
-   username: "Mark Marmont",
-   fbToken: null,
-   fbId: 5555
+    username: "Mark Marmont",
+    fbToken: null,
+    fbId: 5555,
+    categories: ['Living']
   };
 
   //If no user already exsists on session, create a default
@@ -14,9 +15,9 @@ module.exports = function (req, res, next){
       User.create(defaultUserObj, function (err, defaultUser){
         req.user = defaultUser;
         next();
-      });      
+      });
     } else {
-      req.user = user; 
+      req.user = user;
       next();
     }
   })
