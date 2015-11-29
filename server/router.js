@@ -23,7 +23,6 @@ module.exports = function (router) {
 
 
   router.get('/api/articles', articleController.getArticles);
-  router.post('/api/articles', articleController.insertArticles);
   router.put('/api/user/like', articleController.userLike);
 
   router.get('/api/categories', categoryController.getCategories);

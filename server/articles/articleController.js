@@ -1,7 +1,7 @@
 var Article = require('./articleModel');
 var Category = require('../categories/categoryModel');
 var User = require('../users/userModel');
-var TrainingSample = require('../trainingSamples/TrainingSampleController');
+var TrainingSample = require('../trainingSamples/trainingSampleController');
 var Promise = require('bluebird');
 
 var getArticles = function (req, res, next) {

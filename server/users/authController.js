@@ -18,18 +18,18 @@ module.exports = {
   },
    
   signin: function (req, res, next){
-    res.redirect('/#/user');
+    res.redirect('/#/feed');
   }, 
 
   callback: function (req, res, next){
     //send back user.id in the response - client will write out localstorage value 
     //res.send(req.user); //client needs to write this out
-    res.redirect('/#/user');
+    res.redirect('/#/feed');
   },
 
   signout: function (req, res, next){
     req.session.destroy();
-    res.redirect('/#/feed');
+    res.redirect('/#/landingPage');
   }
 
 }
