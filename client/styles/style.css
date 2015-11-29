@@ -319,7 +319,6 @@ li:hover .plus {
 .article .scoreStrip {
 	width: 20px;
 	height: 100%;
-	background-color: #feba27;
 	float: left;
 	z-index: 10;
 }
