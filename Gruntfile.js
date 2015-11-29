@@ -8,7 +8,16 @@ module.exports = function(grunt) {
         separator: ';',
       },
       dist: {
-          src: ['client/**/*.js'],
+          src: [
+            "client/lib/underscore/underscore.js",
+            "client/lib/angular/angular.js",
+            "client/lib/angular-route/angular-route.js",
+            "client/app/services/services.js",
+            "client/app/feed/testData.js",
+            "client/app/user/user.js",
+            "client/app/newUserPage/newUserPage.js",
+            "client/app/app.js"
+          ],
           dest: 'client/dist/script.js'
       }
     },
@@ -56,6 +65,23 @@ module.exports = function(grunt) {
       prodServer: {
       }
     },
+    jshint: {
+      files: [
+        "client/app/services/services.js",
+        "client/app/feed/testData.js",
+        "client/app/user/user.js",
+        "client/app/newUserPage/newUserPage.js",
+        "client/app/app.js"
+      ],
+      options: {
+        force: 'true',
+        jshintrc: '_.jshintrc',
+        ignores: [
+          'public/lib/**/*.js',
+          'public/dist/**/*.js'
+        ]
+      }
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -65,6 +91,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   grunt.registerTask('server-dev', function (target) {
     // Running nodejs in a different process and displaying output on the main console
@@ -83,7 +110,7 @@ module.exports = function(grunt) {
   // Main grunt tasks
   ////////////////////////////////////////////////////
 
-  grunt.registerTask('build', ['clean', 'concat', 'uglify', 'cssmin']);
+  grunt.registerTask('build', ['jshint', 'clean', 'concat', 'cssmin']);
 
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
