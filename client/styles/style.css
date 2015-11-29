@@ -303,13 +303,13 @@ li:hover .plus {
 	overflow: auto;
 	height: 190px;
 	overflow-y: hidden;
+	/*box-shadow: 0 2px 2px #e4e4e4;*/
 }
 
 .article .scoreStrip {
 	width: 20px;
 	height: 100%;
 	background-color: #feba27;
-	/*box-shadow: 10px 10px 5px white;*/
 	float: left;
 	z-index: 10;
 }
@@ -363,7 +363,7 @@ li:hover .plus {
 
 
 .articleTitle a:visited {
-	color: #8b8c7b;
+	color: #9d9f99;
 }
 
 .articleSummary {
@@ -377,11 +377,17 @@ li:hover .plus {
 	height: 30px;
 	width: 35px;
 	margin: 12px 9px 0 0;
+	cursor: pointer;
 }
 
 .likeButton .unclickedTarget {
 	fill: grey;
 	width: 28px;
+	transition: fill .2s;
+}
+
+.likeButton .unclickedTarget:hover {
+	fill: #c5c6bf;
 }
 
 .likeButton .clickedTarget {
