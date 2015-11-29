@@ -20,7 +20,7 @@ rss.then(function(formattedArticles){
       console.log('articles classified');
       var summariesByCategory = {};
       newArticles.forEach(function(article, index){
-        article.user_scores = {};
+        article.userScores = {};
         article.category = results[index][0].label;
 
         //summariesByCategory is an object that stores an array of summaries for each category and the index of each summary in newArticles
@@ -34,18 +34,20 @@ rss.then(function(formattedArticles){
       });
 
       //add user scores to articles
-      var categoriesComplete = 0;
-      for(var category in summariesByCategory){
-        monkeyLearn.classify(category, summariesByCategory[category].summaries, assignScores(category, newArticles, summariesByCategory, function(articles){
-          categoriesComplete++;
-          console.log(categoriesComplete + ' categories complete, ' + Object.keys(summariesByCategory).length + ' in total');
-          if(categoriesComplete === Object.keys(summariesByCategory).length){
-            dbServices.writeArticles(newArticles).then(function(){
-              db.disconnect();
-            });
-          }
-        }));
-      }
+
+      // var categoriesComplete = 0;
+      // for(var category in summariesByCategory){
+      //   monkeyLearn.classify(category, summariesByCategory[category].summaries, assignScores(category, newArticles, summariesByCategory, function(articles){
+      //     categoriesComplete++;
+      //     console.log(categoriesComplete + ' categories complete, ' + Object.keys(summariesByCategory).length + ' in total');
+      //     if(categoriesComplete === Object.keys(summariesByCategory).length){
+      //       dbServices.writeArticles(newArticles).then(function(){
+      //         db.disconnect();
+      //       });
+      //     }
+      //   }));
+      // }
+      getUserScores(summariesByCategory, newArticles);
     });
   });
 });
@@ -56,15 +58,42 @@ rss.then(function(formattedArticles){
 var assignScores = function(category, newArticles, summariesByCategory, cb){
   var cat = category;
   var articles = newArticles;
-  var summariesByCat = summariesByCategory;
+  var summariesByCat = summariesByCategory;   
 
   return function(scores){
     for(var artIndex = 0; artIndex < scores.length; artIndex++){
       for(var userIndex = 0; userIndex < scores[artIndex].length; userIndex++){
-        articles[summariesByCat[cat].indices[artIndex]].user_scores[scores[artIndex][userIndex][0].label] = scores[artIndex][userIndex][0].probability;
+        articles[summariesByCat[cat].indices[artIndex]].userScores[scores[artIndex][userIndex][0].label] = scores[artIndex][userIndex][0].probability;
       }
     }
-    console.log('done getting scores');
     cb(articles);
   }
 }
+
+var getUserScores = function(summariesByCategory, newArticles){
+  var categoriesComplete = 0;
+  var categories = Object.keys(summariesByCategory);
+  
+  var throttleUserScores = function(catIndex){
+    setTimeout(function(){
+      var category = categories[catIndex];
+      monkeyLearn.classify(category, summariesByCategory[category].summaries, assignScores(category, newArticles, summariesByCategory, function(articles){
+        categoriesComplete++;
+        console.log(categoriesComplete + ' categories complete, ' + categories.length + ' in total');
+        if(categoriesComplete === categories.length){
+          dbServices.writeArticles(articles).then(function(){
+            db.disconnect();
+          });
+        }
+      }));
+      if(catIndex < categories.length-1){
+        throttleUserScores(catIndex+1);
+      }
+    }, 1000);
+  }
+
+  throttleUserScores(0);
+}
+
+
+

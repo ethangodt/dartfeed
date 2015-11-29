@@ -10,7 +10,8 @@ var ArticleSchema = new mongoose.Schema({
   category: String,
   visitsCount: Number,
   metadata: String,
-  userLikes: mongoose.Schema.Types.Mixed
+  userLikes: mongoose.Schema.Types.Mixed,
+  userScores: mongoose.Schema.Types.Mixed
 });
 
 module.exports = mongoose.model('Article', ArticleSchema);
