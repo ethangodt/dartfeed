@@ -2,16 +2,32 @@ var mongoose = require('mongoose');
 var Article = require('./articleModel.js');
 var Promise = require('bluebird');
 
-// module.exports.writeArticles = function (articles) {
-//   var writePromises = [];
-//   articles.forEach(function (articleData) {
-//     articleData.visitsCount = articleData.visitsCount || 0;
-//     articleData.metadata = articleData.metadata || 0;
-//     writePromises.push(Article.create(articleData));
-//   });
+module.exports.writeArticles = function (articles) {
+  var writePromises = [];
+  articles.forEach(function (articleData) {
+    articleData.visitsCount = articleData.visitsCount || 0;
+    articleData.metadata = articleData.metadata || 0;
+    writePromises.push(Article.create(articleData));
+  });
 
-//   return Promise.all(writePromises);
-// };
+  return Promise.all(writePromises);
+};
+
+module.exports.newArticles = function (rssArticles){
+  var newArticles = [];
+
+  return Article.find({}).sort({date:-1}).limit(1).exec().then(function(newestArticle){
+    if(newestArticle.length === 0){
+      return rssArticles;
+    }
+    rssArticles.forEach(function(article){
+      if(laterDate(article.date, newestArticle[0].date)){
+        newArticles.push(article);
+      }
+    });
+    return newArticles;
+  })
+};
 
 //returns an array of promises of db.create calls to write the new articles
 module.exports.writeNewArticles = function(articles){
@@ -23,7 +39,7 @@ module.exports.writeNewArticles = function(articles){
         createPromises.push(Article.create(article));
       }
     });
-    return createPromises;
+    return Promise.all(createPromises);
   });
 }; 
 
