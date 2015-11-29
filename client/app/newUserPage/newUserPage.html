@@ -69,7 +69,7 @@
 <div id="articlesContainer" data-100-start="opacity: .3">
   <!--todo include ng-style="obj.redShade" below-->
   <div class="article" ng-repeat="obj in articles">
-    <div class="scoreStrip"></div>
+    <div class="scoreStrip" ng-style="obj.yellowShade"></div>
     <a href="{{ obj.linkURL }}" target="_blank">
       <figure ng-style="{'background': 'url({{ obj.imgURL }})', 'background-size': 'cover'}"></figure>
     </a>
@@ -109,7 +109,3 @@
     </div>
   </div>
 </div>
-
-<script type="text/javascript">
-  console.log('hey');
-</script>
