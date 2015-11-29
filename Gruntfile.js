@@ -12,6 +12,7 @@ module.exports = function(grunt) {
             "client/lib/angular/angular.js",
             "client/lib/angular-route/angular-route.js",
             "client/app/**/*.js",
+            "client/app/*.js"
           ],
           dest: 'client/dist/script.js'
       }
