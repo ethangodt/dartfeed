@@ -96,7 +96,6 @@ module.exports = {
     //  ]
     var URL = treeName === 'Public' ? 'https://api.monkeylearn.com/v2/classifiers/cl_hS9wMk9y/classify/?' : 'https://api.monkeylearn.com/v2/classifiers/' + trees[treeName].id + '/classify/?sandbox=1';
     var tok = treeName === 'Public' ? '388012c35b27f1bef21f91041c6e7327dcb01e1f' : token;
-    '388012c35b27f1bef21f91041c6e7327dcb01e1f'
     // console.log(URL);
     // console.log(JSON.stringify({
     //     text_list: articleArr
