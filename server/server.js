@@ -98,7 +98,7 @@ if(process.env === 'production') {
   port = 8000;
 }
 
-app.listen(port); 
+app.listen(port);
 
 module.exports = app;
 
