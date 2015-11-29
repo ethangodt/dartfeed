@@ -3,21 +3,21 @@ angular.module('dartnews.services', [])
 
   var getUserProfile = function (){
     return $http({
-      url: '/api/user', 
+      url: '/api/user',
       method: 'GET'
     });
   };
 
   var getCategories = function (){
     return $http({
-      url: '/api/categories', 
+      url: '/api/categories',
       method: 'GET'
     });
   };
 
   var updateUserCategories = function (category, type){
     return $http({
-      url: '/api/categories', 
+      url: '/api/categories',
       method: type,
       data: {
         category: category,
@@ -28,7 +28,7 @@ angular.module('dartnews.services', [])
 
   var getArticlesForUser = function (){
     return $http({
-      url: '/api/articles', 
+      url: '/api/articles',
       method: 'GET'
     });
   };
@@ -40,16 +40,16 @@ angular.module('dartnews.services', [])
       data: {
         articleID: articleID
       }
-    });  
+    });
   };
 
   return {
     getUserProfile: getUserProfile,
     getCategories: getCategories,
-    updateUserCategories: updateUserCategories, 
+    updateUserCategories: updateUserCategories,
     getArticlesForUser: getArticlesForUser,
     likeArticle:likeArticle
 
-  }
+  };
 
-})
+});

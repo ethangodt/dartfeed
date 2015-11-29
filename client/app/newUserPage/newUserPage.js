@@ -32,9 +32,9 @@ angular.module('dartnews.feed', [])
 
   var pickColor = function (score) {
     score = score || 0.5;
-    if (score < .666) {
+    if (score < 0.666) {
       return '#d0cfcc';
-    } else if (score < .832) {
+    } else if (score < 0.832) {
       return '#f3dfb4';
     } else {
       return '#feba27';
