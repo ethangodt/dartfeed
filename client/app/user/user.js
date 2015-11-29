@@ -9,13 +9,11 @@ angular.module('dartnews.user', [])
     Feed.getCategories()
       .then(function (categories){
         console.log(categories);
-        $scope.categories = categories; 
+        $scope.categories = categories;
       })
   }
   $scope.addCategoriesToUser = function (){
     Feed.updateUserCategories($scope.selectedCategory)
       .then(console.log('finished'))
   }
-
-
 });

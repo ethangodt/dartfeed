@@ -44,7 +44,6 @@ trainingSampleCtrl.getAllTrainingSamples()
       var count = 0;
 
       var makeDelayedCall = function () {
-        debugger;
         if (count === expectedCalls) {
           resolve();
           return;

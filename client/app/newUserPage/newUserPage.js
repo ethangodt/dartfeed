@@ -55,6 +55,7 @@ angular.module('dartnews.feed', [])
   $scope.getArticlesForUser = function (){
     Feed.getArticlesForUser()
       .then(function (response){
+        debugger;
         updateData(response.data);
       });
   };
@@ -91,18 +92,18 @@ angular.module('dartnews.feed', [])
     return true;
   };
 
-  //$scope.getArticlesForUser();
+  $scope.getArticlesForUser();
 
-  $scope.articles = testData;
-  $scope.allCategories = testAllCategories;
-  $scope.userCategories = testUser.categories;
-  $scope.user = testUser;
-
-  for (var i = 0; i < $scope.articles.length; i++){
-    $scope.articles[i].yellowShade = {
-      'background-color': pickColor($scope.articles[i].score)
-    }
-  }
+  //$scope.articles = testData;
+  //$scope.allCategories = testAllCategories;
+  //$scope.userCategories = testUser.categories;
+  //$scope.user = testUser;
+  //
+  //for (var i = 0; i < $scope.articles.length; i++){
+  //  $scope.articles[i].yellowShade = {
+  //    'background-color': pickColor($scope.articles[i].score)
+  //  }
+  //}
 })
 .filter('thirtyWordsMax', function () {
   return function (articleSummary) {
