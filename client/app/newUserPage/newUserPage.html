@@ -9,7 +9,7 @@
     <div id="categoriesListHeader">Categories</div>
     <ul class="categoriesList">
       <li>Show All</li>
-      <li ng-repeat="category in userCategories track by $index"> {{ category.name }}
+      <li ng-repeat="category in userCategories track by $index"> {{ category }}
         <span class="delete" ng-click="removeCategory($index)">(-)</span>
       </li>
     </ul>

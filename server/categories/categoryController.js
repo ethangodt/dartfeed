@@ -10,7 +10,6 @@ module.exports = {
   },
 
   updateUserCategories: function(req, res, next){
-    //use req.user to save back the updates
     User.findOne({_id: req.user.id}, function (err, user){
       if(err) {
         res.send(err);
@@ -25,7 +24,7 @@ module.exports = {
           }
         });
         Article.getArticles(req, res, next);
-      } else if (req.body.type === "DELETE"){
+      } else if (req.body.type === "POST"){
         user.categories.splice(user.categories.indexOf(req.body.category),1);
         user.save();
         Article.getArticles(req,res,next);

@@ -23,10 +23,10 @@ angular.module('dartnews.feed', [])
     //console.log(fixedScore + ' is fixedScore')
     var ctr = 50;
     while(ctr <= 105){
-      console.log('comparing ' + ctr + ' to ' + fixedScore);
+      //console.log('comparing ' + ctr + ' to ' + fixedScore);
       if(ctr > fixedScore){
         ctr -= 5;
-        console.log('argument is = ' + String(ctr) + ' AND RETURN IS ' + colorData[String(ctr)]);
+        //console.log('argument is = ' + String(ctr) + ' AND RETURN IS ' + colorData[String(ctr)]);
         return colorData[String(ctr)];
       }
       ctr += 5;
@@ -34,6 +34,7 @@ angular.module('dartnews.feed', [])
   };
 
   var updateData = function (appData){
+    console.dir(appData);
     $scope.allCategories = appData.allCats;
     $scope.userCategories = appData.userCats;
     $scope.articles = appData.articles;
@@ -52,7 +53,7 @@ angular.module('dartnews.feed', [])
   };
 
   $scope.removeCategory = function (categoryIndex){
-    Feed.updateUserCategories($scope.userCategories[categoryIndex], 'DELETE')
+    Feed.updateUserCategories($scope.userCategories[categoryIndex], 'POST')
     .then(function(response){
       updateData(response.data);
     });
@@ -83,17 +84,17 @@ angular.module('dartnews.feed', [])
     return true;
   };
 
-  //$scope.getArticlesForUser();
+  $scope.getArticlesForUser();
 
-  $scope.articles = testData;
-  $scope.allCategories = testAllCategories;
-  $scope.userCategories = testUser.categories;
-  $scope.user = testUser;
+  //$scope.articles = testData;
+  //$scope.allCategories = testAllCategories;
+  //$scope.userCategories = testUser.categories;
+  //$scope.user = testUser;
 
-  for(var i = 0; i < $scope.articles.length; i++){
-    $scope.articles[i].redShade = {
-      'background-color': pickColor($scope.articles[i].score)
-    }
-  }
+  //for(var i = 0; i < $scope.articles.length; i++){
+  //  $scope.articles[i].redShade = {
+  //    'background-color': pickColor($scope.articles[i].score)
+  //  }
+  //}
 
 });
