@@ -16,6 +16,7 @@ var getArticles = function (req, res, next) {
       if(user.picUrl){
         resBody.picUrl = user.picUrl;
       }
+      resBody.name = user.username;
       resBody.articles = [];
         Article.find()
         .in('category', categories)
