@@ -15,7 +15,12 @@ var getAllTrainingSamples = function () {
     .exec();
 };
 
+var clearAllTrainingSamples = function () {
+  return TrainingSample.remove({});
+};
+
 module.exports = {
   addTrainingSample: addTrainingSample,
-  getAllTrainingSamples: getAllTrainingSamples
+  getAllTrainingSamples: getAllTrainingSamples,
+  clearAllTrainingSamples: clearAllTrainingSamples
 };

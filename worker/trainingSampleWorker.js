@@ -7,9 +7,15 @@ var trainingSampleCtrl = require('../server/trainingSamples/trainingSampleContro
 var monkeyLearn = require('./analysis_module/UserTreeInterface');
 var _ = require('underscore');
 
+// establish with mongoose models for collection in the db
+db.connect();
+var articleInit = require('../server/articles/articleModel');
+var userInit = require('../server/users/userModel');
+
 // pull all training samples from db
 trainingSampleCtrl.getAllTrainingSamples()
   .then(function (trainingSamples) {
+    console.log('All training samples have been fetched.');
     return trainingSamples.reduce(function (acc, sample) {
       acc[sample.article.category] = (acc[sample.article.category]) ? acc[sample.article.category].push(sample) : [sample];
       return acc;
@@ -20,6 +26,7 @@ trainingSampleCtrl.getAllTrainingSamples()
     // fetch user ids from monkey learn
     return new Promise(function (resolve, reject) {
       monkeyLearn.getUserCategoryIdsForAllTrees(function (idsByTree) {
+        console.log('The category ids have been successfully fetched from Monkey Learn.');
         resolve(idsByTree);
       });
     })
@@ -33,6 +40,7 @@ trainingSampleCtrl.getAllTrainingSamples()
           };
         });
       });
+      console.log('The articles and category ids have been successfully formatted together.');
       return rawSamplesByCategory; // at this point fully formatted
     });
   })
@@ -45,6 +53,7 @@ trainingSampleCtrl.getAllTrainingSamples()
 
       var makeDelayedCall = function () {
         if (count === expectedCalls) {
+          console.log('All calls have successfully been made.');
           resolve();
           return;
         }
@@ -53,6 +62,7 @@ trainingSampleCtrl.getAllTrainingSamples()
           var category = categories[count];
           monkeyLearn.addSamples(category, samplesByCategory[category], function () {
             count++;
+            console.log(count + ' of ' + expectedCalls + ' sample adding calls.');
             makeDelayedCall();
           });
         }, 1500);
@@ -61,9 +71,17 @@ trainingSampleCtrl.getAllTrainingSamples()
       makeDelayedCall(); // called once here, will keep calling itself until all samples are added
     });
   })
+  .then(function () {
+    debugger;
+    return trainingSampleCtrl.clearAllTrainingSamples()
+      .then(function () {
+        console.log('Training sample collection has been cleared.');
+        db.disconnect(); // from this point on the connection with the db isn't necessary
+      });
+  })
   // start training the monkey
   .then(function () {
     monkeyLearn.startTrainingAll(function () {
-      console.log('Samples have been successfully added to Monkey Learn!');
+      console.log('The monkey has successfully been trained!');
     });
   });
