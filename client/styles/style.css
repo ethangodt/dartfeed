@@ -67,7 +67,7 @@ a {
 #sidebar {
 	box-sizing: border-box;
 	position: fixed;
-	padding: 60px 30px 30px 30px;
+	padding: 40px 30px 30px 30px;
 	height: 100%;
 	width: 240px;
 	background: linear-gradient(#322604, black 50%);
@@ -89,7 +89,7 @@ a {
 	font-size: 18px;
 	font-family: open_sanssemibold, sans-serif;
 	color: white;
-	margin-bottom: 25px;
+	margin-bottom: 20px;
 }
 
 #sidebar ul {
@@ -111,7 +111,7 @@ a {
 
 #mainBrandingContainer {
 	text-align: center;
-	margin-bottom: 60px;
+	margin-bottom: 35px;
 }
 
 #mainBrandingContainer .dartfeedLogo {
@@ -129,7 +129,7 @@ a {
 }
 
 #sidebar .categoriesList {
-	margin-bottom: 40px;
+	margin-bottom: 35px;
 }
 
 .minus {
@@ -212,8 +212,8 @@ li:hover .plus {
 }
 
 .article figure {
-	width: 270px;
-	height: 190px;
+  width: 270px;
+  height: 190px;
 	overflow: hidden;
 	float: left;
 	margin: 0;
@@ -229,7 +229,7 @@ li:hover .plus {
 	margin-left: 290px;
 	padding: 30px;
 	height: 130px;
-	/*NOTICE pointer-events will prevent clicks on this wrapper div*/
+	/* NOTICE pointer-events will prevent clicks on this wrapper div */
 	pointer-events: none;
 }
 
