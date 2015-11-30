@@ -78,6 +78,7 @@ var userLike = function (req, res, next) {
       } else {
         art.userLikes = art.userLikes || {};
         art.userLikes[req.user.id] = true;
+        art.markModified('userLikes');
         art.save();
 
         monkeyLearn.getUserCategoryIdsForTree(art.category, function(ids){
