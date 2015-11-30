@@ -5,7 +5,6 @@ var Article = require('../articles/articleController');
 module.exports = {
   getCategories: function (req, res, next){
     Category.find(function (err, cats){
-      console.log('cats = ', cats);
       res.send(cats);
     });
   },
