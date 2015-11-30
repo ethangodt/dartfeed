@@ -14,22 +14,19 @@ angular.module('dartnews.feed', [])
   };
 
   var updateData = function (appData){
-    console.dir(appData);
     $scope.allCategories = appData.allCats;
     $scope.userCategories = appData.userCats;
     $scope.articles = appData.articles;
     for (var i = 0; i < $scope.articles.length; i++) {
       $scope.articles[i].yellowShade = {
-        'background-color': pickColor($scope.articles[i].score)
+        'background-color': pickColor($scope.articles[i].userScores)
       };
     }
   };
 
   $scope.getArticlesForUser = function (){
-    console.log('aosidfj');
     Feed.getArticlesForUser()
       .then(function (response){
-        console.log('asdf');
         updateData(response.data);
       });
   };
@@ -49,7 +46,7 @@ angular.module('dartnews.feed', [])
   };
 
   $scope.likeArticle = function (articleIndex){
-    var articleID = $scope.articles[articleIndex]._id || 'no ID'; //get rid of this once we have article IDs
+    var articleID = $scope.articles[articleIndex]._id;
     Feed.likeArticle(articleID);
   };
 
@@ -68,16 +65,6 @@ angular.module('dartnews.feed', [])
 
   $scope.getArticlesForUser();
 
-  //$scope.articles = testData;
-  //$scope.allCategories = testAllCategories;
-  //$scope.userCategories = testUser.categories;
-  //$scope.user = testUser;
-  //
-  //for (var i = 0; i < $scope.articles.length; i++){
-  //  $scope.articles[i].yellowShade = {
-  //    'background-color': pickColor($scope.articles[i].score)
-  //  }
-  //}
 })
 .filter('thirtyWordsMax', function () {
   return function (articleSummary) {
