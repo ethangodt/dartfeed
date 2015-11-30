@@ -7,6 +7,7 @@ var Promise = require('bluebird');
 var getArticles = function (req, res, next) {
   User.findOne({_id: req.user.id})
     .exec(function (err, user) {
+      console.log('err = ', err + ' user = ', user)
       var categories = user.categories.filter(function (item) {
         return !!item;
       });

@@ -2,34 +2,6 @@ angular.module('dartnews.feed', [])
 .controller('FeedController', function ($scope, $window, $location, Feed) {
   $scope.errSrc = "http://assets.inhabitat.com/wp-content/blogs.dir/1/files/2011/11/data-farm-537x399.jpg";
 
-  //var colorData = {
-  //  '50': '#ffffff',
-  //  '55': '#ffe5e5',
-  //  '60': '#ffcccc',
-  //  '65': '#ffb2b2',
-  //  '70': '#ff9999',
-  //  '75': '#ff7f7f',
-  //  '80': '#ff6666',
-  //  '85': '#ff4c4c',
-  //  '90': '#ff3232',
-  //  '95': '#ff1919',
-  //  '100': '#ff0000'
-  //};
-  //
-  ////translates a score from 0.5-1.0 to a shade of red
-  //var pickColor = function(score){
-  //  score = score || 0.5;
-  //  var fixedScore = Math.round(score * 100);
-  //  var ctr = 50;
-  //  while(ctr <= 105){
-  //    if(ctr > fixedScore){
-  //      ctr -= 5;
-  //      return colorData[String(ctr)];
-  //    }
-  //    ctr += 5;
-  //  }
-  //};
-
   var pickColor = function (score) {
     score = score || 0.5;
     if (score < 0.666) {
@@ -41,7 +13,8 @@ angular.module('dartnews.feed', [])
     }
   };
 
-  $scope.updateData = function (appData){
+  var updateData = function (appData){
+    console.dir(appData);
     $scope.allCategories = appData.allCats;
     $scope.userCategories = appData.userCats;
     $scope.articles = appData.articles;
@@ -53,23 +26,25 @@ angular.module('dartnews.feed', [])
   };
 
   $scope.getArticlesForUser = function (){
+    console.log('aosidfj');
     Feed.getArticlesForUser()
       .then(function (response){
-        $scope.updateData(response.data);
+        console.log('asdf');
+        updateData(response.data);
       });
   };
 
   $scope.removeCategory = function (categoryIndex){
     Feed.updateUserCategories($scope.userCategories[categoryIndex], 'POST')
     .then(function(response){
-      $scope.updateData(response.data);
+      updateData(response.data);
     });
   };
 
   $scope.addCategory = function (category){
     Feed.updateUserCategories(category, 'PUT')
     .then(function(response){
-        $scope.updateData(response.data);
+        updateData(response.data);
     });
   };
 
