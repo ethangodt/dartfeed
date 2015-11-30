@@ -27,6 +27,8 @@ rss.then(function(formattedArticles){
       }
       var summariesByCategory = {};
       newArticles.forEach(function(article, index){
+        //console.dir(article);
+        //console.log(JSON.stringify(results));
         article.userScores = {};
         article.category = results[index][0].label;
 

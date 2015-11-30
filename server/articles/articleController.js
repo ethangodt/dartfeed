@@ -3,6 +3,7 @@ var Category = require('../categories/categoryModel');
 var User = require('../users/userModel');
 var TrainingSample = require('../trainingSamples/trainingSampleController');
 var Promise = require('bluebird');
+var request = require('request');
 var monkeyLearn = require('../../worker/analysis_module/UserTreeInterface.js');
 
 var getArticles = function (req, res, next) {
@@ -12,8 +13,11 @@ var getArticles = function (req, res, next) {
         return !!item;
       });
       var resBody = {};
+      if(user.picUrl){
+        resBody.picUrl = user.picUrl;
+      }
       resBody.articles = [];
-      Article.find()
+        Article.find()
         .in('category', categories)
         .then(function (articles) {
           articles.forEach(function (art) {
@@ -69,7 +73,7 @@ var laterDate = function(date1, date2){
 
 var userLike = function (req, res, next) {
   TrainingSample.addTrainingSample( req.body.articleID,req.user.id);
-  
+
   Article.findOne({_id: req.body.articleID})
     .exec(function (err, art) {
       if (err) {

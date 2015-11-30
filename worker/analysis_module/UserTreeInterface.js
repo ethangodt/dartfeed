@@ -126,6 +126,7 @@ module.exports = {
         callback(err, null);
       } else {
         var categoryScores = res.body.result;
+        //console.log('monkey learn returned ' + categoryScores);
         callback(null, categoryScores);
       }
     });
