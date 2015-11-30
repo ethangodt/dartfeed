@@ -67,7 +67,6 @@ var execOnAllTrees = function (fn) {
           treeNameToRes[treeArr[treeNum]] = result
           counter ++;
           if(counter >= numTrees) {
-            console.log('bulk query finished!')
             callback(treeNameToRes);
           }
           }]
@@ -88,7 +87,7 @@ module.exports = {
     //articleArr = ['string1', 'string2'];
     //return = [
     //  [
-    //    {label: 'first category of string1', probability: <decimal number>}, 
+    //    {label: 'first category of string1', probability: <decimal number>},
     //    {label: 'child category of first category of string1', probability: <decimal number>} ...
     //  ],
     //  [
@@ -121,7 +120,6 @@ module.exports = {
         text_list: articleArr
       }
     }, function (err, res) {
-      // console.log('res: ', res);
       if(err || res.statusCode >= 400) {
         console.log('error in userTree.classify:', err);
         console.log('statusCode', res.statusCode);

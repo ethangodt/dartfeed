@@ -5,11 +5,11 @@ angular.module('dartnews.feed', [])
   var pickColor = function (score) {
     score = score || 0.5;
     if (score < 0.666) {
-      return '#d0cfcc';
+      return '#d0cfcc'; // low recommendation
     } else if (score < 0.832) {
-      return '#f3dfb4';
+      return '#f3dfb4'; // medium recommendation
     } else {
-      return '#feba27';
+      return '#feba27'; // high recommendation
     }
   };
 
@@ -41,7 +41,7 @@ angular.module('dartnews.feed', [])
   $scope.addCategory = function (category){
     Feed.updateUserCategories(category, 'PUT')
     .then(function(response){
-        updateData(response.data);
+      updateData(response.data);
     });
   };
 
