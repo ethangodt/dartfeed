@@ -217,11 +217,22 @@ li:hover .plus {
 	overflow: hidden;
 	float: left;
 	margin: 0;
-	transition: opacity .35s;
+  transition: opacity .35s;
 }
 
 .article figure:hover {
-	opacity: .7;
+  opacity: .7;
+}
+
+.article figure .thumbnail {
+  display: block;
+  width: 270px;
+  height: 190px;
+  transition: transform .5s;
+}
+
+.article .thumbnail:hover {
+  transform: scale(1.05);
 }
 
 .article .articleDetails {
