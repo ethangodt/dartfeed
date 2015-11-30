@@ -18,17 +18,14 @@ module.exports = {
         if (user.categories.indexOf(req.body.category) === -1){
           user.categories.push(req.body.category);
         }
-        user.save(function(err) {
-          if (err) {
-            res.send(err);
-          }
-        });
-        Article.getArticles(req, res, next);
+        user.save()
+          .then(function(){
+            Article.getArticles(req, res, next);
+          });
       } else if (req.body.type === "POST"){
         user.categories.splice(user.categories.indexOf(req.body.category),1);
         user.save()
           .then(function () {
-            debugger;
             Article.getArticles(req,res,next);
           });
       }

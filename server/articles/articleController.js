@@ -3,6 +3,7 @@ var Category = require('../categories/categoryModel');
 var User = require('../users/userModel');
 var TrainingSample = require('../trainingSamples/trainingSampleController');
 var Promise = require('bluebird');
+var monkeyLearn = require('../../worker/analysis_module/UserTreeInterface.js');
 
 var getArticles = function (req, res, next) {
   User.findOne({_id: req.user.id})
@@ -16,6 +17,7 @@ var getArticles = function (req, res, next) {
         .in('category', categories)
         .then(function (articles) {
           articles.forEach(function (art) {
+            art.userScores = art.userScores[req.user.id] ? art.userScores[req.user.id] : 0.5;
             art.userLikes = !!art.userLikes && !!art.userLikes[req.user.id];
           });
           //console.log('articles', articles)
@@ -67,7 +69,7 @@ var laterDate = function(date1, date2){
 
 var userLike = function (req, res, next) {
   TrainingSample.addTrainingSample( req.body.articleID,req.user.id);
-
+  
   Article.findOne({_id: req.body.articleID})
     .exec(function (err, art) {
       if (err) {
@@ -75,7 +77,14 @@ var userLike = function (req, res, next) {
       } else {
         art.userLikes = art.userLikes || {};
         art.userLikes[req.user.id] = true;
+        art.markModified('userLikes');
         art.save();
+
+        monkeyLearn.getUserCategoryIdsForTree(art.category, function(ids){
+          if(!(req.user.id in ids)){
+            monkeyLearn.addUserToTree(art.category, req.user.id, function(){});
+          }
+        });
         res.send();
       }
     })
