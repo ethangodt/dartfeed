@@ -121,7 +121,7 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
 
   grunt.registerTask('build', ['jshint', 'clean', 'concat', 'cssmin']);
-  grunt.registerTask('background', ['shell', 'crontab'])
+  grunt.registerTask('background', ['shell:mongodb', 'shell:rss', 'crontab'])
 
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {

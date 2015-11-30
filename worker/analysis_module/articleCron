@@ -1,8 +1,8 @@
 {
   "jobs": [
     {
-      "command": "node " + project.baseDir + "/worker/analysis_module/articleWorker",
-      "schedule": "0 0 * * *", 
+      "command": "node <%= project.baseDir %>/worker/analysis_module/articleWorker",
+      "schedule": "0 * * * *", 
       "comment": "Process articles"
     }
   ]

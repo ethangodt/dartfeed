@@ -1,8 +1,8 @@
 {
   "jobs": [
     {
-      "command": "node " + project.baseDir + "/worker/trainingSampleWorker.js",
-      "schedule": "0 0 3 * *", 
+      "command": "node <%= project.baseDir %>/worker/trainingSampleWorker.js",
+      "schedule": "0 3 * * *", 
       "comment": "TRAIN THE MONKEY"
     }
   ]
