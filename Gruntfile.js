@@ -77,9 +77,12 @@ module.exports = function(grunt) {
     shell: {
       mongodb: {
         command: 'mongod -dbpath ./data/db --fork --logpath ./mongod.log',
+        options: {
+          failOnError: false
+        }
       },
       rss: {
-        command: 'node worker/analysis_module/articleWorker &'
+        command: 'node worker/analysis_module/articleWorker.js &'
         //& is intentional.  it runs the command in the background
       },
       clearCronTab: {
@@ -128,7 +131,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', ['jshint', 'clean', 'concat', 'cssmin']);
   grunt.registerTask('background', ['shell:mongodb', 'shell:rss', 'crontab'])
-  grunt.registerTask('kill-background', ['shell:clearCronTab'/*, 'shell:terminateMongod'*/])
+  grunt.registerTask('kill-background', ['shell:clearCronTab'])
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
       grunt.task.run(['server-dev']);
