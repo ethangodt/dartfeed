@@ -50,17 +50,167 @@ a {
 }
 /*--- fonts end ---*/
 
-.shadow {
-  -webkit-box-shadow: 3px 3px 5px 3px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-  -moz-box-shadow:    3px 3px 5px 3px #ccc;  /* Firefox 3.5 - 3.6 */
-  box-shadow:         3px 3px 5px 3px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+/*--- landing page styles begin ---*/
+#landingPageBackground {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: linear-gradient(#232323, black);
+  z-index: -2;
 }
 
-.landingHeader{
-  background-image: url('https://i.ytimg.com/vi/CZI9MZKfvgw/maxresdefault.jpg');
-  background-position: 25%;
-  background-repeat: no-repeat;
+#logosContainer {
+  margin-top: 80px;
+  position: absolute;
+  width: 700px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  opacity: .15;
+  z-index: -1;
 }
+
+@keyframes nearFloat {
+  0%   { transform: translate(0, 0); }
+  50% { transform: translate(0, 13px); }
+}
+
+@keyframes farFloat {
+  0%   { transform: translate(0, 0); }
+  50% { transform: translate(0, 10px); }
+}
+
+.logoFloat1 {
+  -webkit-filter: blur(1px);
+  animation: nearFloat 5s infinite;
+}
+
+.logoFloat2 {
+  -webkit-filter: blur(3px);
+  opacity: .8;
+  animation: farFloat 4s infinite;
+}
+
+#nprLogo {
+  position: absolute;
+  top: 20px;
+  left: 80px;
+  height: 50px;
+  width: 150px;
+  background-image: url('images/nprlogo.png');
+  background-size: cover;
+}
+
+#espnLogo {
+  position: absolute;
+  top: 230px;
+  height: 50px;
+  width: 150px;
+  background-image: url('images/espnlogo.png');
+  background-size: cover;
+}
+
+#avClubLogo {
+  position: absolute;
+  top: 400px;
+  left: 135px;
+  height: 100px;
+  width: 100px;
+  background-image: url('images/avclublogo.png');
+  background-size: cover;
+}
+
+#techCrunchLogo {
+  position: absolute;
+  left: 500px;
+  height: 90px;
+  width: 90px;
+  background-image: url('images/techcrunchlogo.png');
+  background-size: cover;
+}
+
+#nytLogo {
+  position: absolute;
+  top: 240px;
+  left: 390px;
+  height: 90px;
+  width: 120px;
+  background-image: url('images/nytlogo.gif');
+  background-position: center center;
+  background-size: cover;
+  opacity: .5;
+}
+
+#bbcLogo {
+  position: absolute;
+  top: 170px;
+  right: 0;
+  height: 60px;
+  width: 120px;
+  background-image: url('images/bbclogo.jpg');
+  background-size: cover;
+}
+
+#voxLogo {
+  position: absolute;
+  top: 390px;
+  left: 495px;
+  height: 60px;
+  width: 120px;
+  background-image: url('images/voxlogo.jpg');
+  background-size: cover;
+}
+
+.contentContainer {
+  width: 260px;
+  margin: 100px auto 0 auto;
+  text-align: center;
+}
+
+#landingLogo {
+  fill: #fec439;
+  opacity: 1;
+  width: 200px;
+  -webkit-filter: drop-shadow(0px 0px 25px rgba(255, 255, 255, .2));
+  margin-left: 30px;
+}
+
+.contentContainer h1 {
+  font-family: alfa_slab_oneregular, sans-serif;
+  font-size: 50px;
+  color: white;
+  margin-top: 20px;
+  text-shadow: rgba(255, 255, 255, .4) 0 0 50px;
+}
+
+#tagline {
+  color: white;
+  font-size: 20px;
+  margin-top: -30px;
+}
+
+#fbLogin {
+  background-image: url(images/fbLogin.png);
+  width: 202px;
+  height: 46px;
+  margin: 70px auto 0 auto;
+}
+
+.monkeyLearnContainer {
+  width: 197px;
+  margin: 100px auto 0 auto;
+}
+
+#poweredBy {
+  font-size: 10px;
+  color: white;
+  margin-top: -10px;
+}
+
+img[alt="MonkeyLearnLogo"] {
+  position: relative;
+  top: 13px;
+  margin-left: 7px;
+}
+/*--- landing page styles end ---*/
 
 
 /*--- sidebar styles begin ---*/
@@ -179,10 +329,14 @@ li:hover .plus {
 	color: white;
 }
 
-.userInfo p:nth-last-child(1) {
+.userInfo a {
 	font-size: 13px;
 	margin-top: -5px;
 	color: #feba27;
+}
+
+.userInfo a[href='/api/auth/signout']:hover {
+  color: #fee689;
 }
 /*--- sidebar styles end ---*/
 
