@@ -59,10 +59,10 @@
   </div>
 
   <div class="userInfo">
-    <img class="profilePic" src="https://scontent-ord1-1.xx.fbcdn.net/hprofile-xta1/v/t1.0-1/p160x160/11043040_3123140159959_1374342349785525580_n.jpg?oh=4a38c84a173bc6b6d81f721a2790e5bb&oe=56D8D1F3" alt=""/>
+    <img class="profilePic" ng-src="{{picUrl}}" alt=""/>
     <div class="userSettings">
-      <p class="name">Ethan Godt</p>
-      <p>sign out</p>
+      <p class="name">{{name}}</p>
+      <a href='/api/auth/signout'><p>sign out</a>
     </div>
   </div>
 

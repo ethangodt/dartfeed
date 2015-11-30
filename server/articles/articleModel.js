@@ -14,4 +14,7 @@ var ArticleSchema = new mongoose.Schema({
   userScores: mongoose.Schema.Types.Mixed
 });
 
+
+
 module.exports = mongoose.model('Article', ArticleSchema);
+

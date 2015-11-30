@@ -9,7 +9,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var config = require('./config.js');
 var User = require('./users/userModel.js');
 var logger = require('./middleware/logger');
-var defaultUser = require('./middleware/defaultUser');
+//var defaultUser = require('./middleware/defaultUser');
 
 mongoose.connect('mongodb://localhost/dartfeed');
 
@@ -35,22 +35,23 @@ passport.use(new FacebookStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
     ///store in the db
-    User.findOne({fbId: profile.id}, function(err, user){
-      if (!user) {
-        return User.create({
-          username: profile.displayName,
-          fbToken: accessToken,
-          fbId: profile.id
-        });
+    User.findOne({fbId: profile.id})
+      .exec(function (err, user) {
+        if (!user) {
+          User.create({
+              username: profile.displayName,
+              fbToken: accessToken,
+              fbId: profile.id
+            })
+            .then(function (user) {
+              done(null, user);
+            });
 
-      } else {
-        //return existing user
-        return user;
-      }
-    })
-    .then(function (user){
-      done(null, user);
-    });
+        } else {
+          //return existing user
+          done(null, user);
+        }
+      })
   }
 ));
 
@@ -59,11 +60,13 @@ app.use(bodyParser.json());
 
 //get called after login - updates session with user.id
 passport.serializeUser(function(user, done) {
+  console.log('sear',user.id)
   done(null, user.id);
 });
 
 //called on subsequent requests to server
 passport.deserializeUser(function(id, done) {
+  console.log('desear', id)
 
   User.findById(id, function (err, user){
     if(user){
@@ -76,17 +79,17 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-app.use(function (req, res, next){
-  if(req.originalUrl === '/api/auth/callback'){
-    console.log('req cookies', req.cookies);
-    next();
-  }
-  if(!req.user){
-    defaultUser(req, res, next); // todo redirect to signup, or something reasonable
-  } else {
-    next();
-  }
-});
+//app.use(function (req, res, next){
+//  if(req.originalUrl === '/api/auth/callback'){
+//    console.log('req cookies', req.cookies);
+//    next();
+//  }
+//  if(!req.user){
+//    defaultUser(req, res, next); // todo redirect to signup, or something reasonable
+//  } else {
+//    next();
+//  }
+//});
 
 //set up router
 app.use('/', expressRouter);

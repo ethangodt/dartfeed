@@ -17,6 +17,8 @@ angular.module('dartnews.feed', [])
     $scope.allCategories = appData.allCats;
     $scope.userCategories = appData.userCats;
     $scope.articles = appData.articles;
+    $scope.name = appData.name;
+    $scope.picUrl = appData.picUrl;
     for (var i = 0; i < $scope.articles.length; i++) {
       $scope.articles[i].yellowShade = {
         'background-color': pickColor($scope.articles[i].userScores)
