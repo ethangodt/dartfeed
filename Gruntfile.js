@@ -12,6 +12,7 @@ module.exports = function(grunt) {
             "client/lib/angular/angular.js",
             "client/lib/angular-route/angular-route.js",
             "client/app/**/*.js",
+            "client/app/app.js"
           ],
           dest: 'client/dist/script.js'
       }
@@ -75,7 +76,28 @@ module.exports = function(grunt) {
     },
     shell: {
       mongodb: {
-        command: 'mongod -dbpath ./data/db --fork --logpath ./mongod.log',
+        command: 'mongod -dbpath ./data/db --fork --logpath ./data/mongod.log',
+        options: {
+          failOnError: false
+        }
+      },
+      rss: {
+        command: 'node worker/analysis_module/articleWorker.js'
+        //& is intentional.  it runs the command in the background
+      },
+      clearCronTab: {
+        command: 'crontab -r'
+      },
+      terminateMongod: {
+        command: 'mongod --shutdown'
+      }
+    },
+    crontab: {
+      rss: {
+        cronfile: 'worker/analysis_module/articleCron'
+      },
+      train: {
+        cronfile: 'worker/trainingCron'
       }
     }
   });
@@ -88,6 +110,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-crontab');
 
   grunt.registerTask('server-dev', function (target) {
     // Running nodejs in a different process and displaying output on the main console
@@ -107,7 +130,8 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
 
   grunt.registerTask('build', ['jshint', 'clean', 'concat', 'cssmin']);
-
+  grunt.registerTask('background', ['shell:mongodb', 'shell:rss', 'crontab'])
+  grunt.registerTask('kill-background', ['shell:clearCronTab'])
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
       grunt.task.run(['server-dev']);
@@ -117,7 +141,8 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('deploy', ['build', 'shell', 'upload']);
+
+  grunt.registerTask('deploy', ['build', 'background', 'upload']);
 
 
 };
