@@ -29,7 +29,7 @@ trainingSampleCtrl.getAllTrainingSamples()
         rawSamplesByCategory[category] = rawSampleList.map(function (sample) {
           return {
             text: sample.article.summary,
-            category_id: idsByTree[category][sample.userFbId]
+            category_id: idsByTree[category][sample.userId]
           };
         });
       });
