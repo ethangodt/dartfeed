@@ -14,14 +14,14 @@ var UserProfileSchema = new mongoose.Schema({
 UserProfileSchema.pre('save', function (next) {
   var propertiesObject = { type:'large', redirect:'0', access_token: this.fbToken };
   var url = 'https://graph.facebook.com/' + this.fbId + '/picture';
-  request.get({url:url, qs:propertiesObject}, function(err, response, body) {
+  request.get({url:url, qs:propertiesObject}, function(err, response) {
     if(err) { console.log(err); return; }
     var respObj = JSON.parse(response.body);
-    console.log("Get response: " + response.statusCode);
     console.log("Get response: " , respObj );
     this.picUrl = respObj.data.url;
+    console.log(this.picUrl);
     next();
-  });
+  }.bind(this));
 });
 var UserSchema = mongoose.model('UserProfiles', UserProfileSchema);
 

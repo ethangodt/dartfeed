@@ -13,9 +13,7 @@ var getArticles = function (req, res, next) {
         return !!item;
       });
       var resBody = {};
-      if(user.picUrl){
-        resBody.picUrl = user.picUrl;
-      }
+      resBody.picUrl = user.picUrl;
       resBody.name = user.username;
       resBody.articles = [];
         Article.find()
