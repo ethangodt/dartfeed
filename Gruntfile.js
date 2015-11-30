@@ -76,13 +76,13 @@ module.exports = function(grunt) {
     },
     shell: {
       mongodb: {
-        command: 'mongod -dbpath ./data/db --fork --logpath ./mongod.log',
+        command: 'mongod -dbpath ./data/db --fork --logpath ./data/mongod.log',
         options: {
           failOnError: false
         }
       },
       rss: {
-        command: 'node worker/analysis_module/articleWorker.js &'
+        command: 'node worker/analysis_module/articleWorker.js'
         //& is intentional.  it runs the command in the background
       },
       clearCronTab: {
