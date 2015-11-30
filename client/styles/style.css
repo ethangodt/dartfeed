@@ -197,6 +197,12 @@ a {
 .monkeyLearnContainer {
   width: 197px;
   margin: 100px auto 0 auto;
+  opacity: .3;
+  transition: opacity .3s;
+}
+
+.monkeyLearnContainer:hover {
+  opacity: .5;
 }
 
 #poweredBy {
