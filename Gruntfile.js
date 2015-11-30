@@ -77,6 +77,18 @@ module.exports = function(grunt) {
     shell: {
       mongodb: {
         command: 'mongod -dbpath ./data/db --fork --logpath ./mongod.log',
+      },
+      rss: {
+        command: 'node worker/analysis_module/articleWorker &'
+        //& is intentional.  it runs the command in the background
+      }
+    },
+    crontab: {
+      rss: {
+        cronfile: 'worker/analysis_module/articleCron'
+      },
+      train: {
+        cronfile: 'worker/trainingCron'
       }
     }
   });
@@ -89,6 +101,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-crontab');
 
   grunt.registerTask('server-dev', function (target) {
     // Running nodejs in a different process and displaying output on the main console
@@ -108,6 +121,7 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
 
   grunt.registerTask('build', ['jshint', 'clean', 'concat', 'cssmin']);
+  grunt.registerTask('background', ['shell', 'crontab'])
 
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
@@ -118,7 +132,8 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('deploy', ['build', 'shell', 'upload']);
+
+  grunt.registerTask('deploy', ['build', 'background', 'upload']);
 
 
 };
